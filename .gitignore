@@ -1,0 +1,8 @@
+/.idea/
+/bin/
+/lib/
+/.gradle/
+/database/
+/logs/
+/out/
+sources
