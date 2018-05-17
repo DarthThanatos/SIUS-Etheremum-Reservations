@@ -1,5 +1,6 @@
 /.idea/
 /bin/
+/build/
 /lib/
 /.gradle/
 /database/
