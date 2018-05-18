@@ -9,10 +9,7 @@ import org.adridadou.ethereum.values.EthValue;
 import pl.agh.edu.ethereumreservations.services.ether_service.interfaces.Coin;
 import pl.agh.edu.ethereumreservations.services.ether_service.interfaces.Reservations;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.adridadou.ethereum.values.EthValue.ether;
@@ -95,31 +92,34 @@ public class AccountsManager {
     }
 
 
-    public void printEthereumBalances() {
+    public List<String> getEthereumBalances() {
+        List<String> res = new ArrayList<>();
         for(String name: accounts.keySet()){
-            printUserEthereumBalance(name);
+            res.add(getUserEthereumBalance(name));
         }
+        return res;
     }
 
-    public void printUserEthereumBalance(String name) {
+    public String getUserEthereumBalance(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return;}
+        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
         EthValue accountBalance = ethereum.getBalance(account);
-        System.out.println("Balance of " + name + " \n\tin Ether: " + accountBalance.inEth() + "\n\tin Wei: " + accountBalance.inWei());
-
+        return "Balance of " + name + " \n\tin Ether: " + accountBalance.inEth() + "\n\tin Wei: " + accountBalance.inWei();
     }
 
 
-    public void printCustomCurrencyBalances() {
+    public List<String> getCustomCurrencyBalances() {
+        List<String> res = new ArrayList<>();
         for(String name: accounts.keySet()){
-            printUserCustomCurrencyBalance(name);
+            res.add(getUserCustomCurrencyBalance(name));
         }
+        return res;
     }
 
-    public void printUserCustomCurrencyBalance(String name)  {
+    public String getUserCustomCurrencyBalance(String name)  {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return;}
-        coinManager.printUserCustomCurrencyBalance(account, name);
+        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
+        return coinManager.getUserCustomCurrencyBalance(account, name);
     }
 
     public Coin getCoinForName(String name){

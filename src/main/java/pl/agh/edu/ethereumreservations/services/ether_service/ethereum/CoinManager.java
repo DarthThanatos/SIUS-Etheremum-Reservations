@@ -44,12 +44,15 @@ class CoinManager {
     }
 
     @SuppressWarnings("EmptyCatchBlock")
-    void printUserCustomCurrencyBalance(EthAccount account, String name)  {
+    String getUserCustomCurrencyBalance(EthAccount account, String name)  {
         Coin coin = getCoinForName(account, name);
         try {
-            System.out.println("Balance of " + name + " in custom currency: " + coin.getBalance(account).get());
+            return "Balance of " + name + " in custom currency: " + coin.getBalance(account).get();
         } catch (InterruptedException | ExecutionException e) { }
+        return null;
     }
+
+
 
     Coin getCoinForName(EthAccount account, String name){
 
