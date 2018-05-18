@@ -11,40 +11,40 @@
 <p>
     Notifications received on the web socket channel will be displayed below:
 </p>
-<textarea id="notifications-area" cols="60" rows="10" readonly="readonly"></textarea>
+<textarea id="notifications-area" cols="100" rows="10" readonly="readonly"></textarea>
 
-<!-- Javascript functions -->
 <script>
       /**
        * Open the web socket connection and subscribe the "/topic/events" channel.
        */
       function connect() {
+
         // Create and init the SockJS object
         var socket = new SockJS("/ws");
-        console.log("Stomped over socket");
 
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
-            console.log("connected and subscribing");
           stompClient.subscribe('/events', function(notification) {
+
             // Call the notify function when receive a notification
-            // var msg = JSON.parse(notification.body).content;
             var msg = notification.body;
             console.log("Got notification " + msg)
             notify(msg);
+
           });
-          //stompClient.send("/app/send/event", {}, "message");
+
+          // stompClient.send("/app/send/event", {}, "message");
+          // ^ this way a client can prompt websocket notification via endpoint defined in NotificationController.java
 
         });
 
-        return;
-      } // function connect
+      }
 
       /**
        * Display the notification message.
        */
       function notify(message) {
-        $("#notifications-area").append(message + "\n");
+        $("#notifications-area").append(message + "\n\n================================================================================================\n\n");
         return;
       }
 
