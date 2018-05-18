@@ -1,6 +1,11 @@
 package pl.agh.edu.ethereumreservations.services.ether_service.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.support.ExecutorSubscribableChannel;
+import org.springframework.messaging.support.GenericMessage;
+import pl.agh.edu.ethereumreservations.rest.NotificationController;
 import pl.agh.edu.ethereumreservations.services.ether_service.config.EthereumConfig;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsManager;
 
@@ -11,7 +16,9 @@ public class EventHandler <T extends SolEvent>{
     private int i = 0;
     private AccountsManager accountsManager;
 
-    private EthereumConfig config;
+//    private SimpMessagingTemplate messagingTemplate = new SimpMessagingTemplate(new ExecutorSubscribableChannel());
+
+//    private SimpMessagingTemplate messagingTemplate;
 
     public EventHandler(AccountsManager accountsManager){
         this.accountsManager = accountsManager;
@@ -21,7 +28,7 @@ public class EventHandler <T extends SolEvent>{
         Object[] translatedAdresses =
                 event.addressesToTranslate().stream()
                         .map(s -> accountsManager.getReadableNameFromHexForm(s)).collect(Collectors.toList()).toArray();
-        if(config.isDevelPhase()){
+        if(new EthereumConfig().isDevelPhase()){
             if(i == 0) {
                 act(event, nonDefaultEventHandler,translatedAdresses);
                 i = 1;
@@ -37,22 +44,20 @@ public class EventHandler <T extends SolEvent>{
         handle(event, null);
     }
 
-    private void act(T event, NonDefaultEventHandler<T> nonDefaultEventHandler, Object[] translatedAdresses){
 
-        System.out.println(
+    private void act(T event, NonDefaultEventHandler<T> nonDefaultEventHandler, Object[] translatedAdresses){
+        String res =
                 String.format(
                         event.toString(),
                         translatedAdresses
-                )
-        );
+                );
+        System.out.println( res );
+        System.out.println("Sending to /events");
+        NotificationController.template.convertAndSend("/events", res);
         if(nonDefaultEventHandler != null) nonDefaultEventHandler.handle(event);
     }
 
-    @Autowired
-    public void setConfig(EthereumConfig config) {
-        System.out.println("Setting config in ecent handler");
-        this.config = config;
-    }
+
 
     public interface NonDefaultEventHandler<T extends SolEvent>{
         void handle(T event);

@@ -67,9 +67,9 @@ public class ReservationManager {
     }
 
     public static class Estate{
-        private String estateOwnerHexString;
-        private String name;
-        private Integer price;
+        public String estateOwnerHexString;
+        public String name;
+        public Integer price;
         private Boolean[] daysAvailabilityStates;
         private Boolean[] daysReservationStates;
 
