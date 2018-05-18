@@ -8,10 +8,6 @@
 </head>
 
 <body>
-<p th:inline="text">
-    You are logged as: <b>[[${#httpServletRequest.remoteUser}]]</b>
-    (<a href="/logout">logout</a>)
-</p>
 <p>
     Notifications received on the web socket channel will be displayed below:
 </p>
@@ -64,9 +60,6 @@
     </script>
 
 <br />
-<hr />
-Proudly handcrafted by
-<a href='http://netgloo.com/en'>Netgloo</a>
 
 </body>
 
