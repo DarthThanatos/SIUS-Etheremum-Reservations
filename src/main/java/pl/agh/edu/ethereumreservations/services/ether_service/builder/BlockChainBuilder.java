@@ -1,4 +1,4 @@
-package pl.agh.edu.ethereumreservations;
+package pl.agh.edu.ethereumreservations.services.ether_service.builder;
 
 import org.adridadou.ethereum.EthereumFacade;
 import org.adridadou.ethereum.blockchain.BlockchainConfig;
@@ -10,17 +10,17 @@ import org.adridadou.ethereum.values.config.NodeIp;
 import pl.agh.edu.ethereumreservations.services.ether_service.config.EthereumConfig;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsManager;
 
-class BlockChainBuilder{
+public class BlockChainBuilder{
 
         private final  AccountsManager accountsManager;
         private final EthereumConfig config;
 
-        BlockChainBuilder(AccountsManager accountsManager, EthereumConfig config){
+        public BlockChainBuilder(AccountsManager accountsManager, EthereumConfig config){
             this.accountsManager = accountsManager;
             this.config = config;
         }
 
-        EthereumFacade mountEthereum(){
+        public EthereumFacade mountEthereum(){
             return config.isDevelPhase() ? forTest() : forNetwork();
         }
 

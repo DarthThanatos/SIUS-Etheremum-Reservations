@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.agh.edu.ethereumreservations.services.ether_service.IEthereumService;
-//import pl.agh.edu.ethereumreservations.services.ether_service.IEthereumService;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
 public class DiagnosticController {
 
     private final IEthereumService ethereumService;
-
 
     @Autowired
     public DiagnosticController(IEthereumService ethereumService){
