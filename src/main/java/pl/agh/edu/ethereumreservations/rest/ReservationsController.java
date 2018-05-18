@@ -15,7 +15,7 @@ public class ReservationsController {
     }
 
     @PostMapping("/reservations/publish/{ownerName}")
-    public void publishEstate(@PathVariable("ownerName") String ownerName, @RequestParam String estateName, @RequestParam int estatePrice){
+    public void publishEstate(@PathVariable("ownerName") String ownerName, @RequestParam("estateName") String estateName, @RequestParam("estatePrice") int estatePrice){
         //e.g. post in postman: localhost:8080/reservations/publish/main?estateName=est_main_0&estatePrice=20
         ethereumService.publishEstate(ownerName, estateName, estatePrice);
     }
