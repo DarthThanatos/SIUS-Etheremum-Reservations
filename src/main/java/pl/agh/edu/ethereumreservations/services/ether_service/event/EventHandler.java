@@ -1,10 +1,5 @@
 package pl.agh.edu.ethereumreservations.services.ether_service.event;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.support.ExecutorSubscribableChannel;
-import org.springframework.messaging.support.GenericMessage;
 import pl.agh.edu.ethereumreservations.rest.NotificationController;
 import pl.agh.edu.ethereumreservations.services.ether_service.config.EthereumConfig;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsManager;
@@ -15,10 +10,6 @@ public class EventHandler <T extends SolEvent>{
 
     private int i = 0;
     private AccountsManager accountsManager;
-
-//    private SimpMessagingTemplate messagingTemplate = new SimpMessagingTemplate(new ExecutorSubscribableChannel());
-
-//    private SimpMessagingTemplate messagingTemplate;
 
     public EventHandler(AccountsManager accountsManager){
         this.accountsManager = accountsManager;
