@@ -5,16 +5,14 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class NotificationController {
 
-    public static  SimpMessagingTemplate template;
+    public static SimpMessagingTemplate template;
 
     @Autowired
-    public NotificationController(SimpMessagingTemplate template_){
+    public NotificationController(SimpMessagingTemplate template_) {
         template = template_;
     }
 
@@ -24,7 +22,7 @@ public class NotificationController {
     }
 
     @MessageMapping("/send/event")
-    public void onReceiveMsg(String msg){
+    public void onReceiveMsg(String msg) {
         template.convertAndSend("/events", "msg");
     }
 }
