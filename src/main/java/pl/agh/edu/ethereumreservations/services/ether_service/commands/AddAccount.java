@@ -14,7 +14,7 @@ public class AddAccount extends Command {
 
 
     public void tryToAddAccount(String name){
-        if(getName(accountsManager, name) == null) return;
+        if(getName(accountsManager, name) != null) return;
         try {
             accountsManager.addToAccounts(name);
             System.out.println("Warning: this is a brand new account with 0 ether balance. Inform the main account to sent this new user some resources.");
