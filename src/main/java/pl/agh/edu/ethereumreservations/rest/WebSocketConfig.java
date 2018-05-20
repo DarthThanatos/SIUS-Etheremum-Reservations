@@ -27,6 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOrigins("*").withSockJS();
 
     }
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         System.out.println("MessBrok");
