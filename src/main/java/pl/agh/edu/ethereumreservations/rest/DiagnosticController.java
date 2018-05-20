@@ -26,9 +26,4 @@ public class DiagnosticController {
         return ethereumService.getAccountsDescList();
     }
 
-    @GetMapping("/estates/{userName}")
-    public List<ReservationManager.Estate> getAllEstates(@PathVariable("userName") String userName){
-        //e.g. localhost:8080/estates/main
-        return ethereumService.getAllEstates(userName);
-    }
 }
