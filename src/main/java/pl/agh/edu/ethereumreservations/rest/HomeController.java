@@ -11,4 +11,9 @@ public class HomeController {
         return "index.html";
     }
 
+    @RequestMapping(value = "/spawnJanik")
+    public void spawnJanik() {
+        //todo
+    }
+
 }
