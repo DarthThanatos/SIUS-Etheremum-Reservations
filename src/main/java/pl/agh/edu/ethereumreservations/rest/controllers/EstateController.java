@@ -5,11 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.agh.edu.ethereumreservations.rest.pojo.Account;
+import pl.agh.edu.ethereumreservations.rest.utils.Parser;
 import pl.agh.edu.ethereumreservations.services.ether_service.IEthereumService;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.ReservationManager;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -22,17 +25,33 @@ public class EstateController {
         this.ethereumService = ethereumService;
     }
 
+    //e.g. localhost:8080/estates
+    @GetMapping("/estates")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<ReservationManager.Estate> getAllEstates() {
+        List<Account> accounts = new LinkedList<>();
+        for (String accountString : ethereumService.getAccountsDescList()) {
+            accounts.add(Parser.parseAccount(accountString));
+        }
+
+        List<ReservationManager.Estate> estates = new LinkedList<>();
+        for (Account account : accounts) {
+            estates.addAll(ethereumService.getAllEstates(account.getName()));
+        }
+        return estates;
+    }
+
     //e.g. localhost:8080/estates/main
     @GetMapping("/estates/{userName}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ReservationManager.Estate> getAllEstates(@PathVariable("userName") String userName) {
+    public List<ReservationManager.Estate> getAllUserEstates(@PathVariable("userName") String userName) {
         return ethereumService.getAllEstates(userName);
     }
 
     //e.g. localhost:8080/estates/main/bob
     @PostMapping("/estates/{userName}/{ownerName}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ReservationManager.Estate> getAllUserEstates(@PathVariable("userName") String userName, @PathVariable("ownerName") String ownerName) {
+    public List<ReservationManager.Estate> getAllUserOwnerEstates(@PathVariable("userName") String userName, @PathVariable("ownerName") String ownerName) {
         return ethereumService.getAllUserEstates(userName, ownerName);
     }
 
