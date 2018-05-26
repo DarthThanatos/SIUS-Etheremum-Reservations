@@ -1,4 +1,4 @@
-package pl.agh.edu.ethereumreservations.rest;
+package pl.agh.edu.ethereumreservations.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.agh.edu.ethereumreservations.services.ether_service.IEthereumService;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.ReservationManager;
 
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @RestController
@@ -20,27 +22,31 @@ public class EstateController {
         this.ethereumService = ethereumService;
     }
 
+    //e.g. localhost:8080/estates/main
     @GetMapping("/estates/{userName}")
+    @Produces({MediaType.APPLICATION_JSON})
     public List<ReservationManager.Estate> getAllEstates(@PathVariable("userName") String userName) {
-        //e.g. localhost:8080/estates/main
         return ethereumService.getAllEstates(userName);
     }
 
+    //e.g. localhost:8080/estates/main/bob
     @PostMapping("/estates/{userName}/{ownerName}")
+    @Produces({MediaType.APPLICATION_JSON})
     public List<ReservationManager.Estate> getAllUserEstates(@PathVariable("userName") String userName, @PathVariable("ownerName") String ownerName) {
-        //e.g. localhost:8080/estates/main/bob
         return ethereumService.getAllUserEstates(userName, ownerName);
     }
 
+    //e.g. localhost:8080/estates/main/1
     @PostMapping("/estates/{userName}/{index}")
+    @Produces({MediaType.APPLICATION_JSON})
     public ReservationManager.Estate getEstateAt(@PathVariable("userName") String userName, @PathVariable("index") int index) {
-        //e.g. localhost:8080/estates/main/1
         return ethereumService.getEstateAt(userName, index);
     }
 
+    //e.g. localhost:8080/estates/main/bob/1
     @PostMapping("/estates/{userName}/{ownerName}/{index}")
+    @Produces({MediaType.APPLICATION_JSON})
     public ReservationManager.Estate getEstateAt(@PathVariable("userName") String userName, @PathVariable("ownerName") String ownerName, @PathVariable("index") int index) {
-        //e.g. localhost:8080/estates/main/bob/1
         return ethereumService.getEstateDescription(userName, ownerName, index);
     }
 }

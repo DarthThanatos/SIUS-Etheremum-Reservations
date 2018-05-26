@@ -1,6 +1,6 @@
 package pl.agh.edu.ethereumreservations.services.ether_service.event;
 
-import pl.agh.edu.ethereumreservations.rest.NotificationController;
+import pl.agh.edu.ethereumreservations.rest.controllers.NotificationController;
 import pl.agh.edu.ethereumreservations.services.ether_service.config.EthereumConfig;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsManager;
 

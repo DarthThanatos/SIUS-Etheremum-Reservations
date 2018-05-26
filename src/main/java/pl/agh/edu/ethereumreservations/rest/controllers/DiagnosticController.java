@@ -1,4 +1,4 @@
-package pl.agh.edu.ethereumreservations.rest;
+package pl.agh.edu.ethereumreservations.rest.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -22,7 +22,7 @@ public class ReservationManager {
 
     private PaymentTracker paymentTracker;
 
-    ReservationManager(EthereumFacade ethereum, ContractPublisher.Contract<Reservations> mainContract, AccountsManager accountsManager){
+    ReservationManager(EthereumFacade ethereum, ContractPublisher.Contract<Reservations> mainContract, AccountsManager accountsManager) {
         this.ethereum = ethereum;
         this.mainContract = mainContract;
         this.paymentTracker = new PaymentTracker(accountsManager);
@@ -30,24 +30,23 @@ public class ReservationManager {
     }
 
 
-    EthAddress getReservationsContractAddr(){
+    EthAddress getReservationsContractAddr() {
         return mainContract.contractAddress;
     }
 
-    private void observeEvents(AccountsManager accountsManager){
+    private void observeEvents(AccountsManager accountsManager) {
         observeEvent(accountsManager, "PublishedEstate", PublishedEstate.class);
         observeEvent(accountsManager, "ReservationMade", ReservationMade.class, paymentTracker::handleReservation);
         observeEvent(accountsManager, "ReservationCanceled", ReservationCanceled.class, paymentTracker::handleCancel);
     }
 
 
-
     @SuppressWarnings("SameParameterValue")
-    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass){
+    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass) {
         observeEvent(accountsManager, eventName, eventClass, null);
     }
 
-    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass, EventHandler.NonDefaultEventHandler<T> nonDefaultEventHandler){
+    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass, EventHandler.NonDefaultEventHandler<T> nonDefaultEventHandler) {
         EventHandler<T> eventHandler = new EventHandler<>(accountsManager);
         rx.Observable<T> event = ethereum.observeEvents(mainContract.compiledContract.getAbi(), mainContract.contractAddress, eventName, eventClass);
         event.subscribe(
@@ -57,23 +56,23 @@ public class ReservationManager {
 
     }
 
-    Reservations getReservationForName(EthAccount account, String name){
+    Reservations getReservationForName(EthAccount account, String name) {
         Reservations reservation = reservations.get(name);
-        if(reservation == null){
+        if (reservation == null) {
             reservation = ethereum.createContractProxy(mainContract.compiledContract, mainContract.contractAddress, account, Reservations.class);
             reservations.put(name, reservation);
         }
         return reservation;
     }
 
-    public static class Estate{
+    public static class Estate {
         public String estateOwnerHexString;
         public String name;
         public Integer price;
         private Boolean[] daysAvailabilityStates;
         private Boolean[] daysReservationStates;
 
-        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates){
+        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates) {
             this.estateOwnerHexString = estateOwnerHexString;
             this.name = name;
             this.price = price;
@@ -81,25 +80,50 @@ public class ReservationManager {
             this.daysReservationStates = daysReservationStates;
         }
 
-        @Override public String toString(){
+        public String getEstateOwnerHexString() {
+            return estateOwnerHexString;
+        }
+
+        public void setEstateOwnerHexString(String estateOwnerHexString) {
+            this.estateOwnerHexString = estateOwnerHexString;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getPrice() {
+            return price;
+        }
+
+        public void setPrice(Integer price) {
+            this.price = price;
+        }
+
+        @Override
+        public String toString() {
             return "Estate \n\towner: " + estateOwnerHexString + " ( %s )" +
                     "\n\tname: " + name +
                     "\n\tprice: " + price +
                     "\n\tDays available for making pl.agh.edu.reservations: " + getReadableDays(daysAvailabilityStates, "No available days for making pl.agh.edu.reservations.");
         }
 
-        public static void printEstateWithTenantInfo(Reservations reservationForName, Estate estate,  EthAccount owner, int index, AccountsManager accountsManager){
+        public static void printEstateWithTenantInfo(Reservations reservationForName, Estate estate, EthAccount owner, int index, AccountsManager accountsManager) {
             System.out.print(String.format(estate.toString(), accountsManager.getReadableNameFromHexForm(estate.estateOwnerHexString)));
-            System.out.println(reservedWithTenants(reservationForName, estate,  owner, index, accountsManager));
+            System.out.println(reservedWithTenants(reservationForName, estate, owner, index, accountsManager));
         }
 
-        public static void printEstateWithTenantInfo(Reservations reservationForName, Estate estate, int index, AccountsManager accountsManager){
+        public static void printEstateWithTenantInfo(Reservations reservationForName, Estate estate, int index, AccountsManager accountsManager) {
             System.out.print(String.format(estate.toString(), accountsManager.getReadableNameFromHexForm(estate.estateOwnerHexString)));
-            System.out.println(reservedWithTenants(reservationForName, estate,  null, index, accountsManager));
+            System.out.println(reservedWithTenants(reservationForName, estate, null, index, accountsManager));
         }
 
-        private static String reservedWithTenants(Reservations reservations, Estate estate,  EthAccount owner, int index, AccountsManager accountsManager){
-            String res ="\n\tDays already reserved: ";
+        private static String reservedWithTenants(Reservations reservations, Estate estate, EthAccount owner, int index, AccountsManager accountsManager) {
+            String res = "\n\tDays already reserved: ";
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             StringBuilder stringBuilder = new StringBuilder();
             boolean atLeastOneTrue = false;
@@ -108,8 +132,8 @@ public class ReservationManager {
                     try {
                         stringBuilder.append(days[i]).append(":").append(
                                 owner != null
-                                ? accountsManager.getReadableNameFromHexForm(reservations.getTenantOfOwner(owner, index, i))
-                                : accountsManager.getReadableNameFromHexForm(reservations.getTenant(index, i))
+                                        ? accountsManager.getReadableNameFromHexForm(reservations.getTenantOfOwner(owner, index, i))
+                                        : accountsManager.getReadableNameFromHexForm(reservations.getTenant(index, i))
                         ).append(" [toPay=").append(
                                 owner != null
                                         ? reservations.getRemainingQuote(owner, index, i).get()
@@ -122,7 +146,7 @@ public class ReservationManager {
                     atLeastOneTrue = true;
                 }
             }
-            return atLeastOneTrue ? res + stringBuilder.toString() :  "\n\tNo pl.agh.edu.reservations made so far";
+            return atLeastOneTrue ? res + stringBuilder.toString() : "\n\tNo pl.agh.edu.reservations made so far";
         }
 
         @SuppressWarnings("SameParameterValue")
@@ -144,7 +168,7 @@ public class ReservationManager {
         }
     }
 
-    public static class ReservationMade extends SolEvent{
+    public static class ReservationMade extends SolEvent {
 
         final String estateOwnerAddressString;
         final int estateIndex;
@@ -152,7 +176,7 @@ public class ReservationManager {
         final String clientAddrString;
         final int day;
 
-        public ReservationMade(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day){
+        public ReservationMade(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day) {
             this.estateOwnerAddressString = estateOwnerAddressString;
             this.estateIndex = estateIndex;
             this.name = name;
@@ -161,7 +185,8 @@ public class ReservationManager {
         }
 
 
-        @Override public String toString(){
+        @Override
+        public String toString() {
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             return "Reservation was made" +
                     "\n\towner: " + estateOwnerAddressString + " ( %s ) " +
@@ -177,15 +202,15 @@ public class ReservationManager {
         }
     }
 
-    public static class ReservationCanceled extends SolEvent{
+    public static class ReservationCanceled extends SolEvent {
 
         final String estateOwnerAddressString;
         final int estateIndex;
-        final  String name;
-        final  String clientAddrString;
+        final String name;
+        final String clientAddrString;
         final int day;
 
-        public ReservationCanceled(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day){
+        public ReservationCanceled(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day) {
             this.estateOwnerAddressString = estateOwnerAddressString;
             this.estateIndex = estateIndex;
             this.name = name;
@@ -193,7 +218,8 @@ public class ReservationManager {
             this.day = day;
         }
 
-        @Override public String toString(){
+        @Override
+        public String toString() {
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             return "Reservation was canceled" +
                     "\n\towner: " + estateOwnerAddressString + " ( %s ) " +
@@ -210,12 +236,12 @@ public class ReservationManager {
     }
 
     public static class PublishedEstate extends SolEvent {
-        final  String estatesOwnerAddressString;
-        final  String name;
-        final  int price;
-        final  Boolean[]daysAvailabilityStates;
+        final String estatesOwnerAddressString;
+        final String name;
+        final int price;
+        final Boolean[] daysAvailabilityStates;
 
-        public  PublishedEstate(String estatesOwnerAddressString, String name, int price, Boolean[] daysAvailabilityStates){
+        public PublishedEstate(String estatesOwnerAddressString, String name, int price, Boolean[] daysAvailabilityStates) {
             this.estatesOwnerAddressString = estatesOwnerAddressString;
             this.name = name;
             this.price = price;
@@ -223,7 +249,8 @@ public class ReservationManager {
         }
 
 
-        @Override public String toString(){
+        @Override
+        public String toString() {
             return "Published estate: " +
                     "\n\towner: " + estatesOwnerAddressString + " ( %s ) " +
                     "\n\tname of estate: " + name +
@@ -231,12 +258,12 @@ public class ReservationManager {
                     "\n\tavailable: " + getReadableAvailableDays();
         }
 
-        private String getReadableAvailableDays(){
+        private String getReadableAvailableDays() {
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
             StringBuilder res = new StringBuilder();
             boolean atLeastOneTrue = false;
-            for(int i = 0; i < 7; i++){
-                if(daysAvailabilityStates[i]) {
+            for (int i = 0; i < 7; i++) {
+                if (daysAvailabilityStates[i]) {
                     res.append(days[i]).append(" ");
                     atLeastOneTrue = true;
                 }

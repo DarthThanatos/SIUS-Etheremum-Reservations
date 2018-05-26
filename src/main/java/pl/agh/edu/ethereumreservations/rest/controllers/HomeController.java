@@ -1,4 +1,4 @@
-package pl.agh.edu.ethereumreservations.rest;
+package pl.agh.edu.ethereumreservations.rest.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,11 +9,6 @@ public class HomeController {
     @RequestMapping(value = "/")
     public String index() {
         return "index.html";
-    }
-
-    @RequestMapping(value = "/spawnJanik")
-    public void spawnJanik() {
-        //todo
     }
 
 }
