@@ -12,22 +12,22 @@ class ContractPublisher {
 
     private EthereumFacade ethereum;
 
-    ContractPublisher(EthereumFacade ethereum){
+    ContractPublisher(EthereumFacade ethereum) {
         this.ethereum = ethereum;
     }
 
-    <T> Contract<T> compileAndPublish(String contractFileName, String contractName, EthAccount publisherAccount, Class<T> interfaceClass)throws Exception{
+    <T> Contract<T> compileAndPublish(String contractFileName, String contractName, EthAccount publisherAccount, Class<T> interfaceClass) throws Exception {
         Contract<T> contract = new Contract<>();
         contract.contractSrc = SoliditySource.from(new File("contracts/" + contractFileName));
         contract.compiledContract = ethereum.compile(contract.contractSrc, contractName).get();
         System.err.println("Compiled, now publishing...");
         contract.contractAddress = ethereum.publishContract(contract.compiledContract, publisherAccount).get();
         System.err.println("Creating proxy");
-        contract.proxy =  ethereum.createContractProxy(contract.compiledContract, contract.contractAddress, publisherAccount,interfaceClass);
+        contract.proxy = ethereum.createContractProxy(contract.compiledContract, contract.contractAddress, publisherAccount, interfaceClass);
         return contract;
     }
 
-    static class Contract <T>{
+    static class Contract<T> {
         SoliditySource contractSrc;
         CompiledContract compiledContract;
         EthAddress contractAddress;

@@ -19,7 +19,7 @@ public class PayCustomCurrencyCommand extends TargetedCommandWithAmount {
         sendAmount(coin, targetName, amount);
     }
 
-    private void sendAmount(Coin coin, String targetName, int amount){
+    private void sendAmount(Coin coin, String targetName, int amount) {
         try {
             coin.send(accountsManager.getAccount(targetName), amount).get();
         } catch (InterruptedException | ExecutionException e) {

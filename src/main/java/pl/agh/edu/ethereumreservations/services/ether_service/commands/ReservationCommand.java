@@ -10,7 +10,7 @@ public abstract class ReservationCommand extends Command {
     AccountsManager accountsManager;
     private String userName;
 
-    ReservationCommand(AccountsManager accountsManager, String userName){
+    ReservationCommand(AccountsManager accountsManager, String userName) {
         this.accountsManager = accountsManager;
         this.userName = userName;
     }
@@ -21,17 +21,16 @@ public abstract class ReservationCommand extends Command {
 
         EthAccount account;
 
-        if( (account = getAccount(accountsManager, estateOwnerName)) != null && (index >= 0) && (day = getDay(day))!= -1){
+        if ((account = getAccount(accountsManager, estateOwnerName)) != null && (index >= 0) && (day = getDay(day)) != -1) {
             onArgumentsCorrect(account, index, day);
         }
     }
 
-    private void onArgumentsCorrect(EthAccount account, int index, int day){
+    private void onArgumentsCorrect(EthAccount account, int index, int day) {
         Reservations reservationForName = accountsManager.getReservationsForName(userName);
-        try{
+        try {
             makeReservationAction(account, index, day, reservationForName);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("No estate having given properties");
         }
     }

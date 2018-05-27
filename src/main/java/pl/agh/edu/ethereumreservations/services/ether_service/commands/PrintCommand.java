@@ -7,7 +7,21 @@ import java.util.List;
 
 public abstract class PrintCommand extends Command {
 
+    GetterOfAll getterOfAll;
+    GetterOfOne getterOfOne;
     private AccountsManager accountsManager;
+
+    PrintCommand(AccountsManager accountsManager) {
+        this.accountsManager = accountsManager;
+    }
+
+    public String getOne(String name) {
+        return getterOfOne.getOne(accountsManager, name);
+    }
+
+    public List<String> getAll() {
+        return getterOfAll.getAll(accountsManager);
+    }
 
     interface GetterOfAll {
         List<String> getAll(AccountsManager accountsManager);
@@ -15,21 +29,6 @@ public abstract class PrintCommand extends Command {
 
     interface GetterOfOne {
         String getOne(AccountsManager accountsManager, String name);
-    }
-
-    GetterOfAll getterOfAll;
-    GetterOfOne getterOfOne;
-
-    PrintCommand(AccountsManager accountsManager){
-        this.accountsManager = accountsManager;
-    }
-
-    public String getOne(String name){
-        return getterOfOne.getOne(accountsManager, name);
-    }
-
-    public List<String> getAll(){
-        return getterOfAll.getAll(accountsManager);
     }
 
 }

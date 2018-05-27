@@ -43,6 +43,13 @@ public class AccountController {
         return Parser.parseAccount(accountString);
     }
 
+    //e.g. localhost:8080/accounts/hex/janusz
+    @GetMapping("/accounts/hex/{hexName}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public String getNameByHexString(@PathVariable("hexName") String hexName) {
+        return ethereumService.getNameByHexString(hexName);
+    }
+
     //e.g. localhost:8080/accounts/new/tom
     @PutMapping("/accounts/new/{userName}")
     public void addAccount(@PathVariable("userName") String userName) {

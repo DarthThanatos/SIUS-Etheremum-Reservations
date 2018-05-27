@@ -1,9 +1,10 @@
 package pl.agh.edu.ethereumreservations.rest.pojo;
 
+@SuppressWarnings("unused")
 public class CustomCurrency {
 
-    String holder;
-    String value;
+    private String holder;
+    private String value;
 
     public String getValue() {
         return value;

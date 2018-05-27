@@ -3,10 +3,10 @@ package pl.agh.edu.ethereumreservations.services.ether_service.ethereum;
 import org.adridadou.ethereum.EthereumFacade;
 import org.adridadou.ethereum.values.EthAccount;
 import org.adridadou.ethereum.values.EthAddress;
-import rx.Observable;
 import pl.agh.edu.ethereumreservations.services.ether_service.event.EventHandler;
 import pl.agh.edu.ethereumreservations.services.ether_service.event.SolEvent;
 import pl.agh.edu.ethereumreservations.services.ether_service.interfaces.Coin;
+import rx.Observable;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,22 +21,22 @@ class CoinManager {
     private ContractPublisher.Contract<Coin> mainContract;
     private HashMap<String, Coin> coins = new HashMap<>();
 
-    CoinManager(EthereumFacade ethereum, ContractPublisher.Contract<Coin> mainContract, AccountsManager accountsManager){
+    CoinManager(EthereumFacade ethereum, ContractPublisher.Contract<Coin> mainContract, AccountsManager accountsManager) {
         this.ethereum = ethereum;
         this.mainContract = mainContract;
         observeEvents(accountsManager);
     }
 
-    EthAddress getCoinContractAddr(){
+    EthAddress getCoinContractAddr() {
         return mainContract.contractAddress;
     }
 
-    private void observeEvents(AccountsManager accountsManager){
+    private void observeEvents(AccountsManager accountsManager) {
         observeEvent(accountsManager, "Sent", Sent.class);
         observeEvent(accountsManager, "Minted", Minted.class);
     }
 
-    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass){
+    private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass) {
         EventHandler<T> eventHandler = new EventHandler<>(accountsManager);
         Observable<T> event =
                 ethereum.observeEvents(mainContract.compiledContract.getAbi(), mainContract.contractAddress, eventName, eventClass);
@@ -44,20 +44,20 @@ class CoinManager {
     }
 
     @SuppressWarnings("EmptyCatchBlock")
-    String getUserCustomCurrencyBalance(EthAccount account, String name)  {
+    String getUserCustomCurrencyBalance(EthAccount account, String name) {
         Coin coin = getCoinForName(account, name);
         try {
             return "Balance of " + name + " in custom currency: " + coin.getBalance(account).get();
-        } catch (InterruptedException | ExecutionException e) { }
+        } catch (InterruptedException | ExecutionException e) {
+        }
         return null;
     }
 
 
-
-    Coin getCoinForName(EthAccount account, String name){
+    Coin getCoinForName(EthAccount account, String name) {
 
         Coin coin = coins.get(name);
-        if(coin == null){
+        if (coin == null) {
             coin = ethereum.createContractProxy(mainContract.compiledContract, mainContract.contractAddress, account, Coin.class);
             coins.put(name, coin);
         }
@@ -72,7 +72,7 @@ class CoinManager {
         private int pastFromBalance, currentFromBalance;
         private int pastToBalance, currentToBalance;
 
-        public Sent(String from, String to, int amount, int pastFromBalance, int currentFromBalance, int pastToBalance, int currentToBalance){
+        public Sent(String from, String to, int amount, int pastFromBalance, int currentFromBalance, int pastToBalance, int currentToBalance) {
             this.from = from;
             this.to = to;
             this.amount = amount;
@@ -83,9 +83,10 @@ class CoinManager {
         }
 
 
-        @Override public String toString(){
-            return "Sent\n\tfrom : " + from + " ( %1$s  )"  +
-                    "\n\tto: " + to + " ( %2$s ) "  +
+        @Override
+        public String toString() {
+            return "Sent\n\tfrom : " + from + " ( %1$s  )" +
+                    "\n\tto: " + to + " ( %2$s ) " +
                     "\n\tamount: " + amount +
                     "\n\tprev %1$s's balance: " + pastFromBalance + "" +
                     "\n\tcurrent %1$s's balance: " + currentFromBalance +
@@ -103,15 +104,16 @@ class CoinManager {
         private String receiver;
         private int amount;
 
-        public  Minted(String receiver, int amount){
+        public Minted(String receiver, int amount) {
             this.receiver = receiver;
             this.amount = amount;
         }
 
 
-        @Override public String toString(){
+        @Override
+        public String toString() {
             return "Minted" +
-                    "\n\taccount : " + receiver  + " ( %s )" +
+                    "\n\taccount : " + receiver + " ( %s )" +
                     "\n\tamount: " + amount;
         }
 
