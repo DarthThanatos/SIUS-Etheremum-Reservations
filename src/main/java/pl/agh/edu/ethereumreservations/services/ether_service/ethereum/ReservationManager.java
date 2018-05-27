@@ -69,15 +69,17 @@ public class ReservationManager {
         public String estateOwnerHexString;
         public String name;
         public Integer price;
+        public final int estateIndex;
         private Boolean[] daysAvailabilityStates;
         private Boolean[] daysReservationStates;
 
-        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates) {
+        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates, int estateIndex) {
             this.estateOwnerHexString = estateOwnerHexString;
             this.name = name;
             this.price = price;
             this.daysAvailabilityStates = daysAvailabilityStates;
             this.daysReservationStates = daysReservationStates;
+            this.estateIndex = estateIndex;
         }
 
         public String getEstateOwnerHexString() {
@@ -109,6 +111,7 @@ public class ReservationManager {
             return "Estate \n\towner: " + estateOwnerHexString + " ( %s )" +
                     "\n\tname: " + name +
                     "\n\tprice: " + price +
+                    "\n\tindex: " + estateIndex +
                     "\n\tDays available for making pl.agh.edu.reservations: " + getReadableDays(daysAvailabilityStates, "No available days for making pl.agh.edu.reservations.");
         }
 
@@ -239,13 +242,15 @@ public class ReservationManager {
         final String estatesOwnerAddressString;
         final String name;
         final int price;
+        final int estateIndex;
         final Boolean[] daysAvailabilityStates;
 
-        public PublishedEstate(String estatesOwnerAddressString, String name, int price, Boolean[] daysAvailabilityStates) {
+        public PublishedEstate(String estatesOwnerAddressString, String name, int price, Boolean[] daysAvailabilityStates, int estateIndex) {
             this.estatesOwnerAddressString = estatesOwnerAddressString;
             this.name = name;
             this.price = price;
             this.daysAvailabilityStates = daysAvailabilityStates;
+            this.estateIndex = estateIndex;
         }
 
 
@@ -255,6 +260,7 @@ public class ReservationManager {
                     "\n\towner: " + estatesOwnerAddressString + " ( %s ) " +
                     "\n\tname of estate: " + name +
                     "\n\tprice of reserving: " + price +
+                    "\n\tindex: " + estateIndex +
                     "\n\tavailable: " + getReadableAvailableDays();
         }
 
