@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Main from './container/Main';
-import AddEstateInputForm from './container/AddEstateInputForm'
 import './css/App.css';
 import { CSSGrid, layout } from 'react-stonecutter';
 
@@ -11,7 +10,6 @@ class App extends Component {
     return (
       <div className="App">
         <Main />
-        <AddEstateInputForm />
       </div>
     );
   }

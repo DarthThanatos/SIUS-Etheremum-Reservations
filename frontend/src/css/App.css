@@ -1,6 +1,19 @@
 @import "../../node_modules/react-grid-layout/css/styles.css";
 @import "../../node_modules/react-resizable/css/styles.css";
 
+
+.react-grid-item {
+    transition: all 200ms ease;
+    transition-property: left, top;
+}
+
+.react-grid-layout {
+    position: absolute;
+    top: 100px;
+    left: 270px;
+    transition: height 200ms ease;
+}
+
 .react-grid-item:not(.react-grid-placeholder) {
     background: white;
     border: 2px solid black;

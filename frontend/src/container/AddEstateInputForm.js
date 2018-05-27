@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FormErrors } from "./FormErrors";
 import "./../css/Form.css"
 import Modal from "./Modal"
-import SelectUserForm from "./SelectUserForm";
+
 
 
 class AddEstateInputForm extends Component {
@@ -31,9 +31,7 @@ class AddEstateInputForm extends Component {
                     price={this.state.price}
 
                 >
-                Title
-
-                    <p><button onClick={() => this.closeModal()}>Close</button></p>
+                    <h2>Select user modal</h2>
                 </Modal>
             </form>
         )

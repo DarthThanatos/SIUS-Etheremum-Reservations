@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import ReserveEstateModal from './ReserveEstateModal'
 
-var COLS=3;
+var COLS=4;
 
 class MyFirstGrid extends Component {
     constructor(props) {
@@ -11,6 +11,7 @@ class MyFirstGrid extends Component {
         this.state = {
             items: [],
             owner: '',
+            id: -1,
             modalIsOpen: false
         }
         this.openModal = this.openModal.bind(this);
@@ -32,9 +33,10 @@ class MyFirstGrid extends Component {
             })
     }
 
-    openModal(owner, e) {
+    openModal(id, owner, e) {
         this.setState({modalIsOpen: true,
-                      owner: owner});
+                      owner: owner,
+                      id: id});
         e.preventDefault()
     }
 
@@ -58,6 +60,7 @@ class MyFirstGrid extends Component {
                     return weekdays[j] + " "
             });
             const owner = item.estateOwnerHexString;
+            const id = item.estateIndex;
 
             return (
                 <div className="container" key={i} data-grid={{x: i % COLS, y: 0, w: 1, h: 1, static: true}}>
@@ -66,7 +69,7 @@ class MyFirstGrid extends Component {
                     Owner: {owner} <br />
                     Available: {available} <br />
                     Reserved: {reserved}
-                    <button onClick={(e) => this.openModal(owner, e)}>Reserve</button>
+                    <button onClick={(e) => this.openModal(id, owner, e)}>Reserve</button>
                 </div>
 
             )
@@ -74,13 +77,14 @@ class MyFirstGrid extends Component {
 
         return (
             <div>
-            <GridLayout className="layout" cols={COLS} rowHeight={200} width={800}>
+            <GridLayout className="layout" cols={COLS} rowHeight={200} width={window.innerWidth}>
                 {renderItems}
             </GridLayout>
             <ReserveEstateModal
                 isOpen={this.state.modalIsOpen}
                 onClose={() => this.closeModal()}
                 owner={this.state.owner}
+                id={this.state.id}
 
             >
         Title

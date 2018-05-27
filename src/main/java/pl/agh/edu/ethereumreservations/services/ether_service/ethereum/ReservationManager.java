@@ -66,12 +66,28 @@ public class ReservationManager {
     }
 
     public static class Estate {
-        public final int estateIndex;
         public String estateOwnerHexString;
         public String name;
         public Integer price;
         private Boolean[] daysAvailabilityStates;
         private Boolean[] daysReservationStates;
+        public final int estateIndex;
+
+        public int getEstateIndex() {
+            return estateIndex;
+        }
+
+        public Boolean[] getDaysAvailabilityStates() {
+            return daysAvailabilityStates;
+        }
+
+        public void setDaysAvailabilityStates(Boolean[] daysAvailabilityStates) {
+            this.daysAvailabilityStates = daysAvailabilityStates;
+        }
+
+        public void setDaysReservationStates(Boolean[] daysReservationStates) {
+            this.daysReservationStates = daysReservationStates;
+        }
 
         public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates, int estateIndex) {
             this.estateOwnerHexString = estateOwnerHexString;
@@ -80,6 +96,39 @@ public class ReservationManager {
             this.daysAvailabilityStates = daysAvailabilityStates;
             this.daysReservationStates = daysReservationStates;
             this.estateIndex = estateIndex;
+        }
+
+        public String getEstateOwnerHexString() {
+            return estateOwnerHexString;
+        }
+
+        public void setEstateOwnerHexString(String estateOwnerHexString) {
+            this.estateOwnerHexString = estateOwnerHexString;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getPrice() {
+            return price;
+        }
+
+        public void setPrice(Integer price) {
+            this.price = price;
+        }
+
+        @Override
+        public String toString() {
+            return "Estate \n\towner: " + estateOwnerHexString + " ( %s )" +
+                    "\n\tname: " + name +
+                    "\n\tprice: " + price +
+                    "\n\tindex: " + estateIndex +
+                    "\n\tDays available for making pl.agh.edu.reservations: " + getReadableDays(daysAvailabilityStates, "No available days for making pl.agh.edu.reservations.");
         }
 
         public static void printEstateWithTenantInfo(Reservations reservationForName, Estate estate, EthAccount owner, int index, AccountsManager accountsManager) {
@@ -119,39 +168,6 @@ public class ReservationManager {
             return atLeastOneTrue ? res + stringBuilder.toString() : "\n\tNo pl.agh.edu.reservations made so far";
         }
 
-        public String getEstateOwnerHexString() {
-            return estateOwnerHexString;
-        }
-
-        public void setEstateOwnerHexString(String estateOwnerHexString) {
-            this.estateOwnerHexString = estateOwnerHexString;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public Integer getPrice() {
-            return price;
-        }
-
-        public void setPrice(Integer price) {
-            this.price = price;
-        }
-
-        @Override
-        public String toString() {
-            return "Estate \n\towner: " + estateOwnerHexString + " ( %s )" +
-                    "\n\tname: " + name +
-                    "\n\tprice: " + price +
-                    "\n\tindex: " + estateIndex +
-                    "\n\tDays available for making pl.agh.edu.reservations: " + getReadableDays(daysAvailabilityStates, "No available days for making pl.agh.edu.reservations.");
-        }
-
         @SuppressWarnings("SameParameterValue")
         private String getReadableDays(Boolean[] dayStates, String defaultTxt) {
             String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
@@ -166,7 +182,7 @@ public class ReservationManager {
             return atLeastOneTrue ? res.toString() : defaultTxt;
         }
 
-        Boolean[] getDaysReservationStates() {
+        public Boolean[] getDaysReservationStates() {
             return daysReservationStates;
         }
     }

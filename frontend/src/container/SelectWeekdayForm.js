@@ -35,7 +35,7 @@ class SelectWeekdayForm extends Component {
 
         return (
             <div className="section">
-                <h3 className="section-heading"> Select user </h3>
+                <h3 className="section-heading"> Please select weekday </h3>
                 <Select
                     id="user-select"
                     ref={(ref) => { this.select = ref; }}

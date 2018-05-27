@@ -14,6 +14,7 @@ class Modal extends React.Component {
 
         this.handleUserChange = this.handleUserChange.bind(this);
         this.addEstate = this.addEstate.bind(this);
+        this.close = this.close.bind(this);
     }
 
 
@@ -38,7 +39,15 @@ class Modal extends React.Component {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: '9999',
-            background: '#fff'
+            background: '#fff',
+            width: '50%',
+            height: '50%',
+            padding: '16px 16px',
+            border: '3px solid #000',
+            'overflow-wrap': 'break-word',
+            'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+            'transition': '0.3s',
+            'border-radius': '5px' /* 5px rounded corners */
         }
 
         if (this.props.width && this.props.height) {
@@ -76,7 +85,10 @@ class Modal extends React.Component {
                 <div className={this.props.className} style={modalStyle}>
                     {this.props.children}
                     <SelectUserForm handleUserChange={this.handleUserChange} />
-                    <p><button onClick={e => this.addEstate(e)}>Add estate</button></p>
+                    <div>
+                        <button className="btn btn-primary" onClick={e => this.addEstate(e)}>Add estate</button>
+                        <button className="btn btn-primary" onClick={e => this.close(e)}>Close</button>
+                    </div>
                 </div>
                 {!this.props.noBackdrop &&
                 <div className={this.props.backdropClassName} style={backdropStyle}

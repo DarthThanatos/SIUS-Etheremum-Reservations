@@ -46,7 +46,15 @@ class ReserveEstateModal extends React.Component {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: '9999',
-            background: '#fff'
+            background: '#fff',
+            width: '50%',
+            height: '50%',
+            padding: '16px 16px',
+            border: '3px solid #000',
+            'overflow-wrap': 'break-word',
+            'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
+            'transition': '0.3s',
+            'border-radius': '5px' /* 5px rounded corners */
         }
 
         if (this.props.width && this.props.height) {
@@ -116,23 +124,37 @@ class ReserveEstateModal extends React.Component {
 
         };
 
-        // localhost:8080/reservations/reserve/bob?ownerName=main&index=0&day=0
-        let uri = "http://localhost:8080/reservations/reserve/" + this.state.user;
+        let getNameUri = "http://localhost:8080/accounts/hex/" + this.props.owner;
+        console.log(getNameUri)
+        let username = '';
 
-        uri = updateUrlParameter(uri, 'ownerName', this.props.ownerName);
-        uri = updateUrlParameter(uri, 'day', this.state.day);
-        uri = updateUrlParameter(uri, 'index', 0)
-
-        console.log("Reserving for: " + this.props.ownerName)
-
-        axios.post(uri, {}, config)
+        axios.get(getNameUri)
             .then(res => {
-                console.log('Result:' + res.data)
+                username = res.data;
+                let uri = "http://localhost:8080/reservations/reserve/" + this.state.user;
+
+                console.log("username: " + username);
+
+                uri = updateUrlParameter(uri, 'ownerName', username);
+                uri = updateUrlParameter(uri, 'day', this.state.day);
+                uri = updateUrlParameter(uri, 'index', this.props.id);
+
+                console.log("URI" + uri)
+
+                console.log("Reserving for: " + this.props.owner)
+
+                axios.put(uri, {}, config)
+                    .then(res => {
+                        console.log('Result:' + res.data)
+                    }, err => {
+                        alert("Server rejected response with: " + err);
+                    });
+                this.close(e);
             }, err => {
                 alert("Server rejected response with: " + err);
             });
-        this.close(e);
-        window.location.reload()
+
+        // window.location.reload()
     }
 
 

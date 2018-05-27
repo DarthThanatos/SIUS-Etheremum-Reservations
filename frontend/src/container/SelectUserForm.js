@@ -49,7 +49,7 @@ class SelectUserForm extends Component {
 
         return (
             <div className="section">
-                <h3 className="section-heading"> Select user </h3>
+                <h3 className="section-heading"> Please select user that should perform this operation </h3>
                 <Select
                     id="user-select"
                     ref={(ref) => { this.select = ref; }}
