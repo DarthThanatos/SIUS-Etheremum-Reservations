@@ -1,5 +1,6 @@
 package pl.agh.edu.ethereumreservations.rest.pojo;
 
+@SuppressWarnings("unused")
 public class EtherumCurrency {
 
     private String holder;
