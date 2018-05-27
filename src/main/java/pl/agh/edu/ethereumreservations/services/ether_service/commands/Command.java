@@ -6,11 +6,10 @@ import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsM
 abstract class Command {
 
 
-
     @SuppressWarnings("SameParameterValue")
-    String getName(AccountsManager accountsManager, String targetName ){
+    String getName(AccountsManager accountsManager, String targetName) {
         EthAccount targetAccount = accountsManager.getAccount(targetName);
-        if(targetAccount == null) {
+        if (targetAccount == null) {
             System.out.println("Error: target does not exist!");
             return null;
         }
@@ -18,16 +17,16 @@ abstract class Command {
     }
 
     @SuppressWarnings("SameParameterValue")
-    EthAccount getAccount(AccountsManager accountsManager, String estateOwnerName){
+    EthAccount getAccount(AccountsManager accountsManager, String estateOwnerName) {
         EthAccount account = accountsManager.getAccount(estateOwnerName);
-        if(account == null){
+        if (account == null) {
             System.out.println("There is no user with such a name");
         }
-        return  account;
+        return account;
     }
 
-    int getDay(int day){
-        if(day < 0 || day > 6){
+    int getDay(int day) {
+        if (day < 0 || day > 6) {
             System.out.println("Day needs to be in range [0,6]");
             return -1;
         }

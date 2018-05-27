@@ -8,13 +8,13 @@ public abstract class TargetedCommandWithAmount extends Command {
     AccountsManager accountsManager;
     String userName;
 
-    TargetedCommandWithAmount(AccountsManager accountsManager, String userName){
+    TargetedCommandWithAmount(AccountsManager accountsManager, String userName) {
         this.accountsManager = accountsManager;
         this.userName = userName;
     }
 
     public void execute(int amount, String targetName) {
-        if((userName = getName(accountsManager, userName)) != null && (targetName = getName(accountsManager, targetName)) != null && (amount > 0))
+        if ((userName = getName(accountsManager, userName)) != null && (targetName = getName(accountsManager, targetName)) != null && (amount > 0))
             onArgumentsCorrect(targetName, amount);
     }
 

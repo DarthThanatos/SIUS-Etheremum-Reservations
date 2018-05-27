@@ -24,7 +24,7 @@ public class SendEtherCommand extends TargetedCommandWithAmount {
         sendEtherFromTo(srcAccount, targetAccount, amount);
     }
 
-    private void sendEtherFromTo(EthAccount srcAccount, EthAccount targetAccount, int amount){
+    private void sendEtherFromTo(EthAccount srcAccount, EthAccount targetAccount, int amount) {
         try {
             ethereum.sendEther(srcAccount, targetAccount.getAddress(), ether(getCorrectAmountToSend(amount))).get();
         } catch (InterruptedException | ExecutionException e) {
@@ -32,9 +32,9 @@ public class SendEtherCommand extends TargetedCommandWithAmount {
         }
     }
 
-    private int getCorrectAmountToSend(int amount){
+    private int getCorrectAmountToSend(int amount) {
         int MAX_ETHER_AMOUNT = 10;
-        if(amount > MAX_ETHER_AMOUNT) {
+        if (amount > MAX_ETHER_AMOUNT) {
             System.out.println("Warning: sending only " + MAX_ETHER_AMOUNT + " as this is the maximum allowed amount to send");
             amount = MAX_ETHER_AMOUNT;
         }

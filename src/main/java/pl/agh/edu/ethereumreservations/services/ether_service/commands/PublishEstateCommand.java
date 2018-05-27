@@ -10,18 +10,18 @@ public class PublishEstateCommand extends Command {
     private AccountsManager accountsManager;
     private String userName;
 
-    public PublishEstateCommand(AccountsManager accountsManager, String userName){
+    public PublishEstateCommand(AccountsManager accountsManager, String userName) {
         this.accountsManager = accountsManager;
         this.userName = userName;
     }
 
     public void execute(int price, String estateName) {
-        if((userName = getName(accountsManager, userName)) != null && (price >= 0)){
+        if ((userName = getName(accountsManager, userName)) != null && (price >= 0)) {
             publishEstate(estateName, price);
         }
     }
 
-    private void publishEstate(String name, int price){
+    private void publishEstate(String name, int price) {
         Reservations reservations = accountsManager.getReservationsForName(userName);
         try {
             reservations.publishEstate(name, price, booleanArrayOf(true), booleanArrayOf(false)).get();
@@ -30,9 +30,9 @@ public class PublishEstateCommand extends Command {
         }
     }
 
-    private Boolean[] booleanArrayOf(Boolean val){
+    private Boolean[] booleanArrayOf(Boolean val) {
         Boolean[] res = new Boolean[7];
-        for (int i = 0; i < 7; i++){
+        for (int i = 0; i < 7; i++) {
             res[i] = val;
         }
         return res;

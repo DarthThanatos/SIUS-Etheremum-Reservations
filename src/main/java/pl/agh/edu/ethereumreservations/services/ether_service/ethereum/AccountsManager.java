@@ -22,22 +22,22 @@ public class AccountsManager {
     private CoinManager coinManager;
     private ReservationManager reservationManager;
 
-    public void setEthereum(EthereumFacade ethereum){
+    public void setEthereum(EthereumFacade ethereum) {
         this.ethereum = ethereum;
         onInitAfterEthereumAssigned();
     }
 
-    private void onInitAfterEthereumAssigned(){
+    private void onInitAfterEthereumAssigned() {
         ContractPublisher contractPublisher = new ContractPublisher(ethereum);
         EthAccount mainAccount = accounts.get("main");
         initCoinManager(contractPublisher, mainAccount);
         initReservationManager(contractPublisher, mainAccount);
     }
 
-    private void initCoinManager(ContractPublisher contractPublisher, EthAccount mainAccount){
+    private void initCoinManager(ContractPublisher contractPublisher, EthAccount mainAccount) {
         try {
             System.err.println("Publishing coin contract");
-            ContractPublisher.Contract<Coin> mainContract = contractPublisher.compileAndPublish("coin.sol", "Coin", mainAccount ,Coin.class);
+            ContractPublisher.Contract<Coin> mainContract = contractPublisher.compileAndPublish("coin.sol", "Coin", mainAccount, Coin.class);
             System.err.println("Published coin contract");
             coinManager = new CoinManager(ethereum, mainContract, this);
         } catch (Exception e) {
@@ -45,10 +45,10 @@ public class AccountsManager {
         }
     }
 
-    private void initReservationManager(ContractPublisher contractPublisher, EthAccount mainAccount){
+    private void initReservationManager(ContractPublisher contractPublisher, EthAccount mainAccount) {
         try {
             System.err.println("Publishing pl.agh.edu.reservations contract");
-            ContractPublisher.Contract<Reservations> mainContract = contractPublisher.compileAndPublish("reservations.sol", "Reservations", mainAccount , Reservations.class);
+            ContractPublisher.Contract<Reservations> mainContract = contractPublisher.compileAndPublish("reservations.sol", "Reservations", mainAccount, Reservations.class);
             System.err.println("Published pl.agh.edu.reservations contract");
             reservationManager = new ReservationManager(ethereum, mainContract, this);
         } catch (Exception e) {
@@ -56,36 +56,36 @@ public class AccountsManager {
         }
     }
 
-    public EthAddress getReservationsAddr(){
+    public EthAddress getReservationsAddr() {
         return reservationManager.getReservationsContractAddr();
     }
 
-    public void createStartingAccounts(String configPath){
-        accounts.put("bob",AccountProvider.from("bob"));
+    public void createStartingAccounts(String configPath) {
+        accounts.put("bob", AccountProvider.from("bob"));
         accounts.put("alice", AccountProvider.from("alice"));
         accounts.put("main", AccountProvider.from("main"));
         new GenesisCreator(accounts.accounts, configPath).createJSONGenesis();
     }
 
-    public TestConfig createTestAccountsConfig(){
+    public TestConfig createTestAccountsConfig() {
         return addEtherToMain(addEtherToAll(TestConfig.builder(), ether(100000)), ether(500000)).build();
     }
 
     public EthAccount addToAccounts(String name) throws Exception {
-        if(accounts.containsKey(name)) throw new Exception("Account with the specified username already exists!");
+        if (accounts.containsKey(name)) throw new Exception("Account with the specified username already exists!");
         EthAccount account = AccountProvider.from(name);
         accounts.put(name, account);
         return account;
     }
 
-    private TestConfig.Builder addEtherToMain(TestConfig.Builder configBuilder, EthValue ethValue){
+    private TestConfig.Builder addEtherToMain(TestConfig.Builder configBuilder, EthValue ethValue) {
         EthAccount mainAccount = accounts.get("main");
         configBuilder.balance(mainAccount, ethValue);
         return configBuilder;
     }
 
-    private TestConfig.Builder addEtherToAll(TestConfig.Builder configBuilder, EthValue etherValue){
-        for(EthAccount account : accounts.values()){
+    private TestConfig.Builder addEtherToAll(TestConfig.Builder configBuilder, EthValue etherValue) {
+        for (EthAccount account : accounts.values()) {
             configBuilder.balance(account, etherValue);
         }
         return configBuilder;
@@ -94,7 +94,7 @@ public class AccountsManager {
 
     public List<String> getEthereumBalances() {
         List<String> res = new ArrayList<>();
-        for(String name: accounts.keySet()){
+        for (String name : accounts.keySet()) {
             res.add(getUserEthereumBalance(name));
         }
         return res;
@@ -102,7 +102,10 @@ public class AccountsManager {
 
     public String getUserEthereumBalance(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
+        if (account == null) {
+            System.out.println("There is no account with name: " + name);
+            return null;
+        }
         EthValue accountBalance = ethereum.getBalance(account);
         return "Balance of " + name + " \n\tin Ether: " + accountBalance.inEth() + "\n\tin Wei: " + accountBalance.inWei();
     }
@@ -110,49 +113,63 @@ public class AccountsManager {
 
     public List<String> getCustomCurrencyBalances() {
         List<String> res = new ArrayList<>();
-        for(String name: accounts.keySet()){
+        for (String name : accounts.keySet()) {
             res.add(getUserCustomCurrencyBalance(name));
         }
         return res;
     }
 
-    public String getUserCustomCurrencyBalance(String name)  {
+    public String getUserCustomCurrencyBalance(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
+        if (account == null) {
+            System.out.println("There is no account with name: " + name);
+            return null;
+        }
         return coinManager.getUserCustomCurrencyBalance(account, name);
     }
 
-    public Coin getCoinForName(String name){
+    public Coin getCoinForName(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
+        if (account == null) {
+            System.out.println("There is no account with name: " + name);
+            return null;
+        }
         return coinManager.getCoinForName(account, name);
     }
 
-    public Reservations getReservationsForName(String name){
+    public Reservations getReservationsForName(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {System.out.println("There is no account with name: " + name); return null;}
+        if (account == null) {
+            System.out.println("There is no account with name: " + name);
+            return null;
+        }
         return reservationManager.getReservationForName(account, name);
     }
 
-    public EthAccount getAccount(String name){
+    public EthAccount getAccount(String name) {
         return accounts.get(name);
     }
 
-    public List<String> getAccountsDescList()  {
+    public List<String> getAccountsDescList() {
         return accounts.keySet().stream().map(this::getAccountDesc).collect(Collectors.toList());
     }
 
     public String getAccountDesc(String name) {
         EthAccount account = accounts.get(name);
-        if(account == null) {return "There is no account with name: " + name;}
+        if (account == null) {
+            return "There is no account with name: " + name;
+        }
         return name + "'s account: " + account.getAddress().toString() + " private key: " + account.key.getPrivKey().toString(16);
     }
 
 
-    public String getReadableNameFromHexForm(String hexForm){
+    public String getReadableNameFromHexForm(String hexForm) {
         return accounts.getNameByHexString(hexForm);
     }
-    EthAccount getAcountFromHex(String hexForm) {return accounts.getAccountByHexString(hexForm);}
+
+    EthAccount getAcountFromHex(String hexForm) {
+        return accounts.getAccountByHexString(hexForm);
+    }
 
     private class AccountsMappings {
 
@@ -160,33 +177,33 @@ public class AccountsManager {
         private HashMap<String, EthAccount> hexToAccountMap = new HashMap<>();
         private HashMap<String, String> hexToNameMap = new HashMap<>();
 
-        void put(String name, EthAccount account){
+        void put(String name, EthAccount account) {
             accounts.put(name, account);
             hexToAccountMap.put(account.getAddress().toString(), account);
             hexToNameMap.put(account.getAddress().toString(), name);
         }
 
-        boolean containsKey(String name){
+        boolean containsKey(String name) {
             return accounts.containsKey(name);
         }
 
-        EthAccount get(String name){
+        EthAccount get(String name) {
             return accounts.get(name);
         }
 
-        Set<String> keySet(){
+        Set<String> keySet() {
             return accounts.keySet();
         }
 
-        Collection<EthAccount> values(){
+        Collection<EthAccount> values() {
             return accounts.values();
         }
 
-        EthAccount getAccountByHexString(String hexString){
+        EthAccount getAccountByHexString(String hexString) {
             return hexToAccountMap.get(hexString);
         }
 
-        String getNameByHexString(String hexString){
+        String getNameByHexString(String hexString) {
             return hexToNameMap.get(hexString);
         }
     }

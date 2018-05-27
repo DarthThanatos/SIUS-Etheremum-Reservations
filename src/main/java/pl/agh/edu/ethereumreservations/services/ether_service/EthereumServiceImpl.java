@@ -7,6 +7,7 @@ import pl.agh.edu.ethereumreservations.services.ether_service.commands.*;
 import pl.agh.edu.ethereumreservations.services.ether_service.config.EthereumConfig;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.AccountsManager;
 import pl.agh.edu.ethereumreservations.services.ether_service.ethereum.ReservationManager;
+
 import java.util.List;
 
 @Service
@@ -15,7 +16,7 @@ public class EthereumServiceImpl implements IEthereumService {
     private final AccountsManager accountsManager;
     private final EthereumFacade ethereum;
 
-    public EthereumServiceImpl(){
+    public EthereumServiceImpl() {
         accountsManager = new AccountsManager();
         ethereum = new BlockChainBuilder(accountsManager, new EthereumConfig()).mountEthereum();
     }
@@ -113,6 +114,11 @@ public class EthereumServiceImpl implements IEthereumService {
     @Override
     public void publishEstate(String owner, String estateName, int estatePrice) {
         new PublishEstateCommand(accountsManager, owner).execute(estatePrice, estateName);
+    }
+
+    @Override
+    public String getNameByHexString(String hexString) {
+        return accountsManager.getReadableNameFromHexForm(hexString);
     }
 
 
