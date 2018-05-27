@@ -11,7 +11,8 @@
     "react-modal": "^3.4.4",
     "react-scripts": "1.1.4",
     "react-select": "^1.2.1",
-    "react-stonecutter": "^0.3.9"
+    "react-stonecutter": "^0.3.9",
+    "react-weekday-picker": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
