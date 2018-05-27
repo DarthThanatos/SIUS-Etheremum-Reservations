@@ -1,0 +1,19 @@
+@import "../../node_modules/react-grid-layout/css/styles.css";
+@import "../../node_modules/react-resizable/css/styles.css";
+
+.react-grid-item:not(.react-grid-placeholder) {
+    background: white;
+    border: 2px solid black;
+    overflow-wrap: break-word;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+.react-grid-item:not(.react-grid-placeholder):hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5);
+}
+
+.container {
+    padding: 16px 16px;
+}

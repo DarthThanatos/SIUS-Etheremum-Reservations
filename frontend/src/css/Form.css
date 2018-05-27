@@ -1,0 +1,27 @@
+.addEstateInputForm {
+    width: 250px;
+    margin: auto;
+    padding: 16px 16px;
+    background: white;
+    border: 3px solid black;
+    overflow-wrap: break-word;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+}
+
+input[type=text] {
+    border: 2px solid gray;
+    border-radius: 4px;
+}
+
+.panel {
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #a94442;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+}
