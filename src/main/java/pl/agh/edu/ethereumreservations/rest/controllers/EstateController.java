@@ -25,22 +25,6 @@ public class EstateController {
         this.ethereumService = ethereumService;
     }
 
-    //e.g. localhost:8080/estates
-    @GetMapping("/estates")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<ReservationManager.Estate> getAllEstates() {
-        List<Account> accounts = new LinkedList<>();
-        for (String accountString : ethereumService.getAccountsDescList()) {
-            accounts.add(Parser.parseAccount(accountString));
-        }
-
-        List<ReservationManager.Estate> estates = new LinkedList<>();
-        for (Account account : accounts) {
-            estates.addAll(ethereumService.getAllEstates(account.getName()));
-        }
-        return estates;
-    }
-
     //e.g. localhost:8080/estates/main
     @GetMapping("/estates/{userName}")
     @Produces({MediaType.APPLICATION_JSON})
