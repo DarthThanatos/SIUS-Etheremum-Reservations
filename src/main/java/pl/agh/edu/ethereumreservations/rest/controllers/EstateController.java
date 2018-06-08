@@ -32,8 +32,8 @@ public class EstateController {
         return ethereumService.getAllEstates(userName);
     }
 
-    //e.g. localhost:8080/estates/main/bob
-    @PostMapping("/estates/{userName}/{ownerName}")
+    //e.g. localhost:8080/estates/owner/main/bob
+    @PostMapping("/estates/owner/{userName}/{ownerName}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<ReservationManager.Estate> getAllUserOwnerEstates(@PathVariable("userName") String userName, @PathVariable("ownerName") String ownerName) {
         return ethereumService.getAllUserEstates(userName, ownerName);
