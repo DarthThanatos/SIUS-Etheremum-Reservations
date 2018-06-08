@@ -69,8 +69,9 @@ public class ReservationManager {
         public String estateOwnerHexString;
         public String name;
         public Integer price;
-        private Boolean[] daysAvailabilityStates;
-        private Boolean[] daysReservationStates;
+        public Boolean[] daysAvailabilityStates;
+        public Boolean[] daysReservationStates;
+        public String[] tenantsNames;
         public final int estateIndex;
 
         public int getEstateIndex() {
@@ -188,12 +189,12 @@ public class ReservationManager {
     }
 
     public static class ReservationMade extends SolEvent {
-
-        final String estateOwnerAddressString;
-        final int estateIndex;
-        final String name;
-        final String clientAddrString;
-        final int day;
+        public final String eventName = "Reservation Made";
+        public final String estateOwnerAddressString;
+        public final int estateIndex;
+        public final String name;
+        public final String clientAddrString;
+        public final int day;
 
         public ReservationMade(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day) {
             this.estateOwnerAddressString = estateOwnerAddressString;
@@ -223,11 +224,12 @@ public class ReservationManager {
 
     public static class ReservationCanceled extends SolEvent {
 
-        final String estateOwnerAddressString;
-        final int estateIndex;
-        final String name;
-        final String clientAddrString;
-        final int day;
+        public final String eventName = "Reservation Canceled";
+        public final String estateOwnerAddressString;
+        public final int estateIndex;
+        public final String name;
+        public final String clientAddrString;
+        public final int day;
 
         public ReservationCanceled(String estateOwnerAddressString, int estateIndex, String name, String clientAddrString, int day) {
             this.estateOwnerAddressString = estateOwnerAddressString;
@@ -255,11 +257,12 @@ public class ReservationManager {
     }
 
     public static class PublishedEstate extends SolEvent {
-        final String estatesOwnerAddressString;
-        final String name;
-        final int price;
-        final int estateIndex;
-        final Boolean[] daysAvailabilityStates;
+        public final String eventName = "Published Estate";
+        public final String estatesOwnerAddressString;
+        public final String name;
+        public final int price;
+        public final int estateIndex;
+        public final Boolean[] daysAvailabilityStates;
 
         public PublishedEstate(String estatesOwnerAddressString, String name, int price, Boolean[] daysAvailabilityStates, int estateIndex) {
             this.estatesOwnerAddressString = estatesOwnerAddressString;
