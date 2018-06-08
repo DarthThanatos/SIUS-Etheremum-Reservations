@@ -34,7 +34,6 @@ class CoinManager {
     private void observeEvents(AccountsManager accountsManager) {
         observeEvent(accountsManager, "Sent", Sent.class);
         observeEvent(accountsManager, "Minted", Minted.class);
-        observeEvent(accountsManager, "ReservationPaid", ReservationPaid.class);
     }
 
     private <T extends SolEvent> void observeEvent(AccountsManager accountsManager, String eventName, Class<T> eventClass) {
@@ -63,35 +62,6 @@ class CoinManager {
             coins.put(name, coin);
         }
         return coin;
-    }
-
-
-    public static class ReservationPaid extends SolEvent {
-        private String estateOwnerAddressString;
-        private int amount;
-        private int estateIndex;
-        private int day;
-
-        public ReservationPaid(String estateOwnerAddressString, int amount, int estateIndex, int day) {
-            this.estateOwnerAddressString = estateOwnerAddressString;
-            this.amount = amount;
-            this.estateIndex = estateIndex;
-            this.day = day;
-        }
-
-
-        @Override
-        public String toString() {
-            return "Owner: " + this.estateOwnerAddressString + "\n" +
-                    "Amount: " + this.amount + "\n" +
-                    "Est index: " + this.estateIndex + "\n" +
-                    "Day: " + this.day + "\n";
-        }
-
-        @Override
-        public List<String> addressesToTranslate() {
-            return  Collections.singletonList(estateOwnerAddressString);
-        }
     }
 
 

@@ -17,7 +17,6 @@ contract Coin {
     // changes efficiently.
     event Sent(string from, string to, uint amount, uint pastFromBalance, uint currentFromBalance, uint pastToBalance, uint currentToBalance);
     event Minted(string receiver, uint amount);
-    event ReservationPaid(string estateOwnerAddressString, uint estateIndex, uint day, uint amount);
 
     // This is the constructor whose code is
     // run only when the contract is created.
@@ -58,7 +57,6 @@ contract Coin {
         if (balances[msg.sender] < amountToSend) return;
         send(estateOwner, amountToSend);
         reservations.payForDay(estateOwner, estateLocalIndex, day, amountToSend);
-        ReservationPaid(toString(estateOwner), estateLocalIndex, day, amount);
     }
 
     function min(uint a, uint b) private returns (uint) {

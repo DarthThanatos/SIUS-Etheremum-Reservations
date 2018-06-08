@@ -9,6 +9,7 @@ import SelectUserForm from "./SelectUserForm"
 import AccountDetailsPanel from "./AccountDetailsPanel";
 import AddEstateInputForm from './AddEstateInputForm'
 import SendPanel from "./SendPanel";
+import MintCurrency from "./MintCurrency";
 
 class Main extends Component {
     render() {
@@ -24,6 +25,7 @@ class Main extends Component {
                 <AccountDetailsPanel/>
                 <AddEstateInputForm />
                 <SendPanel/>
+                <MintCurrency/>
               <MyFirstGrid />
             </div>
         );

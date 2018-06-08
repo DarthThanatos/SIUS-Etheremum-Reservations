@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import ReserveEstateModal from './ReserveEstateModal'
 import baseUrl from './Utils'
+import PayForReservationModal from "./PayForReservationModal";
 
 
 var COLS=4;
@@ -14,9 +15,11 @@ class MyFirstGrid extends Component {
             items: [],
             owner: '',
             id: -1,
-            modalIsOpen: false
+            reservationModalIsOpen: false,
+            payReservationModalIsOpen: false
         }
-        this.openModal = this.openModal.bind(this);
+        this.openReservationModal = this.openReservationModal.bind(this);
+        this.openPayReservationModal = this.openPayReservationModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
@@ -38,10 +41,17 @@ class MyFirstGrid extends Component {
     }
 
 
-    openModal(id, owner, e) {
-        this.setState({modalIsOpen: true,
+    openReservationModal(id, owner, e) {
+        this.setState({reservationModalIsOpen: true,
                        owner: owner,
                        id: id});
+        e.preventDefault()
+    }
+
+    openPayReservationModal(id, owner, e) {
+        this.setState({payReservationModalIsOpen: true,
+            owner: owner,
+            id: id});
         e.preventDefault()
     }
 
@@ -52,7 +62,8 @@ class MyFirstGrid extends Component {
 
 
     closeModal() {
-        this.setState({modalIsOpen: false});
+        this.setState({reservationModalIsOpen: false,
+                       payReservationModalIsOpen: false});
     }
 
 
@@ -70,8 +81,14 @@ class MyFirstGrid extends Component {
                     return weekdays[j] + " "
             });
 
+            const tenantsNames = item.tenantsNames.map(function(item, j) {
+                if(item)
+                    return weekdays[j] + ": " + item + " "
+            });
+
             const owner = item.estateOwnerHexString;
             const id = item.estateIndex;
+
 
             return (
                 <div className="container" key={i} data-grid={{x: i % COLS, y: 0, w: 1, h: 1, static: true}}>
@@ -79,8 +96,10 @@ class MyFirstGrid extends Component {
                     Price: {item.price} <br />
                     Owner: {owner} <br />
                     Available: {available} <br />
-                    Reserved: {reserved}
-                    <button onClick={(e) => this.openModal(id, owner, e)}>Reserve</button>
+                    Reserved: {reserved} <br />
+                    Tenants names: {tenantsNames} <br />
+                    <button onClick={(e) => this.openReservationModal(id, owner, e)}>Reserve</button>
+                    <button onClick={(e) => this.openPayReservationModal(id, owner, e)}>Pay reservation</button>
                 </div>
 
             )
@@ -88,11 +107,22 @@ class MyFirstGrid extends Component {
 
         return (
             <div>
-                <GridLayout className="layout" cols={COLS} rowHeight={200} width={window.innerWidth}>
+                <GridLayout className="layout" cols={COLS} rowHeight={300} width={window.innerWidth}>
                     {renderItems}
                 </GridLayout>
+                <PayForReservationModal
+                    isOpen={this.state.payReservationModalIsOpen}
+                    onClose={() => this.closeModal()}
+                    owner={this.state.owner}
+                    id={this.state.id}>
+
+                    <h2> Pay for reservation modal </h2>
+                    <p><button onClick={() => this.closeModal()}>Close</button></p>
+
+                </PayForReservationModal>
+
                 <ReserveEstateModal
-                    isOpen={this.state.modalIsOpen}
+                    isOpen={this.state.reservationModalIsOpen}
                     onClose={() => this.closeModal()}
                     owner={this.state.owner}
                     id={this.state.id}

@@ -7,6 +7,7 @@ import 'rc-slider/assets/index.css';
 import { FormErrors } from "./FormErrors";
 import { updateUrlParameter, errorClass, baseUrl } from "./Utils"
 import SelectCurrencyForm from "./SelectCurrencyForm";
+import "../css/SendPanel.css"
 
 
 class SendPanel extends Component {
