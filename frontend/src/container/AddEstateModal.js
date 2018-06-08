@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import SelectUserForm from "./SelectUserForm";
 import axios from 'axios'
-import { updateUrlParameter } from "./Utils"
+import { updateUrlParameter, baseUrl } from "./Utils"
 
 
-class Modal extends React.Component {
+class AddEstateModal extends React.Component {
     constructor(props){
         super(props);
         this.state =
@@ -18,15 +18,12 @@ class Modal extends React.Component {
     }
 
 
-
     handleUserChange(user){
-        console.log("Changing user to: " + user);
         var newState = {};
         newState['user'] = user;
         this.setState(
             newState
-        )
-        console.log("Changing user to: " + this.state.user)
+        );
     }
 
     render() {
@@ -48,7 +45,8 @@ class Modal extends React.Component {
             'box-shadow': '0 4px 8px 0 rgba(0,0,0,0.2)',
             'transition': '0.3s',
             'border-radius': '5px' /* 5px rounded corners */
-        }
+        };
+
 
         if (this.props.width && this.props.height) {
             modalStyle.width = this.props.width + 'px'
@@ -58,11 +56,13 @@ class Modal extends React.Component {
                 modalStyle.transform = null
         }
 
+
         if (this.props.style) {
             for (let key in this.props.style) {
                 modalStyle[key] = this.props.style[key]
             }
         }
+
 
         let backdropStyle = {
             position: 'absolute',
@@ -74,11 +74,13 @@ class Modal extends React.Component {
             background: 'rgba(0, 0, 0, 0.3)'
         }
 
+
         if (this.props.backdropStyle) {
             for (let key in this.props.backdropStyle) {
                 backdropStyle[key] = this.props.backdropStyle[key]
             }
         }
+
 
         return (
             <div className={this.props.containerClassName}>
@@ -97,6 +99,7 @@ class Modal extends React.Component {
         )
     }
 
+
     close(e) {
         e.preventDefault()
 
@@ -105,30 +108,26 @@ class Modal extends React.Component {
         }
     }
 
+
     addEstate (e){
         e.preventDefault()
-        let config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
 
-        };
-        let uri = "http://localhost:8080/reservations/publish/" + this.state.user;
-
-        console.log(this.state.user);
+        // Example: http://localhost:8080/reservations/publish/main?estateName=est_main_0&estatePrice=20
+        let uri = baseUrl + "/reservations/publish/" + this.state.user;
 
         uri = updateUrlParameter(uri, 'estateName', this.props.estateName);
         uri = updateUrlParameter(uri, 'estatePrice', this.props.price);
 
-        axios.post(uri, {}, config)
+        axios.post(uri, {}, {})
             .then(res => {
-                console.log('Result:' + res.data)
+                console.log('Published estate. Res: ' + res.data)
             }, err => {
                 alert("Server rejected response with: " + err);
             });
         this.close(e);
         window.location.reload()
     }
-
-
 }
 
-export default Modal
+
+export default AddEstateModal

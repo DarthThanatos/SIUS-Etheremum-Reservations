@@ -19,6 +19,7 @@ class SelectUserForm extends Component {
         this.updateValue = this.updateValue.bind(this);
     }
 
+
     updateValue (newValue) {
         this.setState({
             selectValue: newValue,
@@ -26,6 +27,7 @@ class SelectUserForm extends Component {
         console.log("Changing to" + newValue);
         this.props.handleUserChange(newValue)
     }
+
 
     componentDidMount() {
         var _this = this;
@@ -39,6 +41,7 @@ class SelectUserForm extends Component {
                 console.log("ERROR ", e);
             })
     }
+
 
     render() {
         var names = this.state.users.map(function(item) {

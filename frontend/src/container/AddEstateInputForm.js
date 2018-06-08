@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { FormErrors } from "./FormErrors";
 import "./../css/Form.css"
-import Modal from "./Modal"
-
+import AddEstateModal from "./AddEstateModal"
+import {errorClass} from "./Utils"
 
 
 class AddEstateInputForm extends Component {
@@ -10,11 +10,11 @@ class AddEstateInputForm extends Component {
         return (
             <form className="addEstateInputForm">
                 <h2>Add estate</h2>
-                    <div className={`form-group ${this.errorClass(this.state.formErrors.estateName)}` }>
+                    <div className={`form-group ${errorClass(this.state.formErrors.estateName)}` }>
                         <label htmlFor="estateName">Estate name</label>
                         <input type="text" className="form-control" name="estateName" value={this.state.estateName} onChange={(event) => this.handleUserInput(event)} />
                     </div>
-                    <div className={`form-group ${this.errorClass(this.state.formErrors.price)}` }>
+                    <div className={`form-group ${errorClass(this.state.formErrors.price)}` }>
                         <label htmlFor="price">Price</label>
                         <input type="text" className="form-control" name="price" value={this.state.price} onChange={(event) => this.handleUserInput(event)} />
                     </div>
@@ -24,31 +24,34 @@ class AddEstateInputForm extends Component {
                     <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>
-                <Modal
+                <AddEstateModal
                     isOpen={this.state.modalIsOpen}
                     onClose={() => this.closeModal()}
                     estateName={this.state.estateName}
                     price={this.state.price}
-
                 >
                     <h2>Select user modal</h2>
-                </Modal>
+                </AddEstateModal>
             </form>
         )
     }
+
 
     openModal(e) {
         this.setState({modalIsOpen: true});
         e.preventDefault()
     }
 
+
     afterOpenModal() {
         // references are now sync'd and can be accessed.
     }
 
+
     closeModal() {
         this.setState({modalIsOpen: false});
     }
+
 
     constructor (props){
         super(props);
@@ -75,6 +78,7 @@ class AddEstateInputForm extends Component {
             () => { this.validateField(name, value) });
     }
 
+
     validateField(fieldName, value) {
         let fieldValidationErrors = this.state.formErrors;
         let estateNameValid = this.state.estateNameValid;
@@ -86,8 +90,8 @@ class AddEstateInputForm extends Component {
                 fieldValidationErrors.estateName = estateNameValid ? '' : ' is invalid';
                 break;
             case 'price':
-                priceValid = value.match(/^([\d]*\.?[\d]*)$/i);
-                fieldValidationErrors.price = priceValid ? '': 'has to be number';
+                priceValid = value.match(/^([\d]+)$/i);
+                fieldValidationErrors.price = priceValid ? '': 'has to be integer';
                 break;
             default:
                 break;
@@ -99,15 +103,10 @@ class AddEstateInputForm extends Component {
         }, this.validateForm);
     }
 
+
     validateForm() {
         this.setState({formValid: this.state.estateNameValid && this.state.priceValid});
     }
-
-    errorClass(error) {
-        return(error.length === 0 ? '' : 'has-error');
-    }
-
-
 }
 
 export default AddEstateInputForm;

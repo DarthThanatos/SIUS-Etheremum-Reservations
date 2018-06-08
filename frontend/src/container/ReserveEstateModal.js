@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import SelectUserForm from "./SelectUserForm";
 import axios from 'axios'
-import { updateUrlParameter } from "./Utils"
+import { updateUrlParameter, baseUrl } from "./Utils"
 import SelectWeekdayForm from "./SelectWeekdayForm"
+
 
 class ReserveEstateModal extends React.Component {
     constructor(props){
@@ -19,7 +20,6 @@ class ReserveEstateModal extends React.Component {
     }
 
 
-
     handleUserChange(user){
         var newState = {};
         newState['user'] = user;
@@ -28,6 +28,7 @@ class ReserveEstateModal extends React.Component {
         )
     }
 
+
     handleDayChange(day){
         var newState = {};
         newState['day'] = day;
@@ -35,6 +36,7 @@ class ReserveEstateModal extends React.Component {
             newState
         )
     }
+
 
     render() {
         if (this.props.isOpen === false)
@@ -57,6 +59,7 @@ class ReserveEstateModal extends React.Component {
             'border-radius': '5px' /* 5px rounded corners */
         }
 
+
         if (this.props.width && this.props.height) {
             modalStyle.width = this.props.width + 'px'
             modalStyle.height = this.props.height + 'px'
@@ -65,11 +68,13 @@ class ReserveEstateModal extends React.Component {
                 modalStyle.transform = null
         }
 
+
         if (this.props.style) {
             for (let key in this.props.style) {
                 modalStyle[key] = this.props.style[key]
             }
         }
+
 
         let backdropStyle = {
             position: 'absolute',
@@ -81,17 +86,20 @@ class ReserveEstateModal extends React.Component {
             background: 'rgba(0, 0, 0, 0.3)'
         }
 
+
         if (this.props.backdropStyle) {
             for (let key in this.props.backdropStyle) {
                 backdropStyle[key] = this.props.backdropStyle[key]
             }
         }
 
+
         var modifiers = {
             'weekend': function(weekday) {
                 return weekday == 0 || weekday == 6;
             }
         };
+
 
         return (
 
@@ -109,6 +117,7 @@ class ReserveEstateModal extends React.Component {
         )
     }
 
+
     close(e) {
         e.preventDefault()
 
@@ -117,35 +126,28 @@ class ReserveEstateModal extends React.Component {
         }
     }
 
+
     reserveEstate (e){
         e.preventDefault()
-        let config = {
-            headers: {'Access-Control-Allow-Origin': '*'}
 
-        };
-
-        let getNameUri = "http://localhost:8080/accounts/hex/" + this.props.owner;
-        console.log(getNameUri)
+        // Example: http://localhost:8080/accounts/hex/janusz
+        let getNameUri = baseUrl + "/accounts/hex/" + this.props.owner;
         let username = '';
 
         axios.get(getNameUri)
             .then(res => {
                 username = res.data;
-                let uri = "http://localhost:8080/reservations/reserve/" + this.state.user;
 
-                console.log("username: " + username);
+                // Example: localhost:8080/reservations/reserve/bob?ownerName=main&index=0&day=0
+                let uri = baseUrl + "/reservations/reserve/" + this.state.user;
 
                 uri = updateUrlParameter(uri, 'ownerName', username);
-                uri = updateUrlParameter(uri, 'day', this.state.day);
                 uri = updateUrlParameter(uri, 'index', this.props.id);
+                uri = updateUrlParameter(uri, 'day', this.state.day);
 
-                console.log("URI" + uri)
-
-                console.log("Reserving for: " + this.props.owner)
-
-                axios.put(uri, {}, config)
+                axios.put(uri, {}, {})
                     .then(res => {
-                        console.log('Result:' + res.data)
+                        console.log('Reservation completed. Res: ' + res.data)
                     }, err => {
                         alert("Server rejected response with: " + err);
                     });
@@ -153,11 +155,7 @@ class ReserveEstateModal extends React.Component {
             }, err => {
                 alert("Server rejected response with: " + err);
             });
-
-        // window.location.reload()
     }
-
-
 }
 
 export default ReserveEstateModal

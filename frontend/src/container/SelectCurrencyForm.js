@@ -5,12 +5,12 @@ import '../css/SelectUserForm.css'
 import 'react-select/dist/react-select.css';
 
 
-class SelectWeekdayForm extends Component {
+class SelectCurrencyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            weekdays: [],
-            selectValue: -1,
+            currencies: ['ether', 'custom'],
+            selectValue: '',
             searchable: true,
             clearable: true,
             rtl: false,
@@ -24,22 +24,20 @@ class SelectWeekdayForm extends Component {
         this.setState({
             selectValue: newValue,
         });
-        this.props.handleDayChange(newValue)
+        this.props.handleCurrencyChange(newValue)
     }
 
 
     render() {
-        const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-        var items = weekdays.map(function(item, i) {
-            return { value: i, label: item, className: item };
+        var items = this.state.currencies.map(function(item) {
+            return { value: item, label: item, className: item};
         });
 
         return (
             <div className="section">
-                <h3 className="section-heading"> Please select weekday </h3>
+                <h3 className="section-heading"> Please select currency </h3>
                 <Select
-                    id="user-select"
+                    id="currency-select"
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
@@ -60,4 +58,4 @@ class SelectWeekdayForm extends Component {
 }
 
 
-export default SelectWeekdayForm;
+export default SelectCurrencyForm;

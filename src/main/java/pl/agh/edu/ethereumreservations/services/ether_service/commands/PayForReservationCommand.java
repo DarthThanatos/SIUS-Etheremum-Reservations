@@ -26,6 +26,7 @@ public class PayForReservationCommand extends Command {
     private void payForReservation(EthAccount account, int estateIndex, int amount, int day) {
         Coin coin = accountsManager.getCoinForName(userName);
         try {
+            System.out.println("PAYING FOR RES");
             coin.payForReservation(account, estateIndex, amount, day, accountsManager.getReservationsAddr()).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();

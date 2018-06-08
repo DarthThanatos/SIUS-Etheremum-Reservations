@@ -6,8 +6,9 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import MyFirstGrid from "./GridLayout";
 import SelectUserForm from "./SelectUserForm"
-import AccountDetails from "./AccountDetails";
+import AccountDetailsPanel from "./AccountDetailsPanel";
 import AddEstateInputForm from './AddEstateInputForm'
+import SendPanel from "./SendPanel";
 
 class Main extends Component {
     render() {
@@ -20,8 +21,9 @@ class Main extends Component {
                 <div>
                 </div>
               </p>
-                <AccountDetails/>
+                <AccountDetailsPanel/>
                 <AddEstateInputForm />
+                <SendPanel/>
               <MyFirstGrid />
             </div>
         );
