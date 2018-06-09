@@ -12,14 +12,19 @@ class MintCurrency extends Component {
         return (
             <form className="mintCurrency">
                 <h2>Mint currency</h2>
-                <p> From: <SelectUserForm handleUserChange={this.handleUserChange} /> </p>
+                <SelectUserForm
+                    handleUserChange={this.handleUserChange}
+                    title="Select issuer"
+                />
                 <div className={`form-group ${errorClass(this.state.formErrors.amount)}` }>
-                    <label htmlFor="amount">amount</label>
+                    <label htmlFor="amount">Amount</label>
                     <input type="text" className="form-control" name="amount" value={this.state.amount} onChange={(event) => this.handleUserInput(event)} />
                 </div>
+                <div className="btnContainer">
                 <button className="btn btn-primary" disabled={!this.state.formValid} onClick={(e) => this.mintCurrency(e)}>
-                    Add user
+                    Mint
                 </button>
+                </div>
                 <div className="panel panel-default">
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>

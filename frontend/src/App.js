@@ -4,12 +4,16 @@ import './css/App.css';
 import { CSSGrid, layout } from 'react-stonecutter';
 
 
+
+
+
 class App extends Component {
 
   render() {
     return (
       <div className="App">
         <Main />
+
       </div>
     );
   }

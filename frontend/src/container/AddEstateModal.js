@@ -31,13 +31,13 @@ class AddEstateModal extends React.Component {
             return null
 
         let modalStyle = {
-            position: 'absolute',
+            position: 'fixed',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: '9999',
             background: '#fff',
-            width: '50%',
+            width: '75%',
             height: '50%',
             padding: '16px 16px',
             border: '3px solid #000',
@@ -65,7 +65,7 @@ class AddEstateModal extends React.Component {
 
 
         let backdropStyle = {
-            position: 'absolute',
+            position: 'fixed',
             width: '100%',
             height: '100%',
             top: '0px',

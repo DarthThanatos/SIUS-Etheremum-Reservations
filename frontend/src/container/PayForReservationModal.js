@@ -85,14 +85,14 @@ class PayForReservationModal extends React.Component {
             return null
 
         let modalStyle = {
-            position: 'absolute',
+            position: 'fixed',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
             zIndex: '9999',
             background: '#fff',
             width: '50%',
-            height: '50%',
+            height: 'fit-content',
             padding: '16px 16px',
             border: '3px solid #000',
             'overflow-wrap': 'break-word',
@@ -119,7 +119,7 @@ class PayForReservationModal extends React.Component {
 
 
         let backdropStyle = {
-            position: 'absolute',
+            position: 'fixed',
             width: '100%',
             height: '100%',
             top: '0px',
@@ -148,8 +148,14 @@ class PayForReservationModal extends React.Component {
             <div className={this.props.containerClassName}>
                 <div className={this.props.className} style={modalStyle}>
                     {this.props.children}
-                    <SelectUserForm handleUserChange={this.handleUserChange} />
-                    <SelectWeekdayForm handleDayChange={this.handleDayChange}/>
+                    <SelectUserForm
+                        handleUserChange={this.handleUserChange}
+                        title="Select user"
+                    />
+                    <SelectWeekdayForm
+                        handleDayChange={this.handleDayChange}
+                        title="Select weekday"
+                    />
                     <div className={`form-group ${errorClass(this.state.formErrors.amount)}` }>
                         <label htmlFor="amount">Amount</label>
                         <input type="text" className="form-control" name="amount" value={this.state.amount} onChange={(event) => this.handleUserInput(event)} />
@@ -157,7 +163,10 @@ class PayForReservationModal extends React.Component {
                     <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>
-                    <p><button onClick={e => this.payForReservation(e)}>Pay</button></p>
+                    <div className="btnContainer">
+                        <button className="btn btn-primary" onClick={e => this.payForReservation(e)}>Pay</button>
+                        <button className="btn btn-primary" onClick={e => this.close(e)}>Close</button>
+                    </div>
                 </div>
                 {!this.props.noBackdrop &&
                 <div className={this.props.backdropClassName} style={backdropStyle}

@@ -35,7 +35,7 @@ class SelectCurrencyForm extends Component {
 
         return (
             <div className="section">
-                <h3 className="section-heading"> Please select currency </h3>
+                <h3 className="section-heading"> {this.props.title} </h3>
                 <Select
                     id="currency-select"
                     ref={(ref) => { this.select = ref; }}

@@ -5,28 +5,22 @@ import '../css/App.css';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import MyFirstGrid from "./GridLayout";
-import SelectUserForm from "./SelectUserForm"
-import AccountDetailsPanel from "./AccountDetailsPanel";
-import AddEstateInputForm from './AddEstateInputForm'
-import SendPanel from "./SendPanel";
-import MintCurrency from "./MintCurrency";
+
 
 class Main extends Component {
     render() {
         return (
             <div className="Main">
               <header className="App-header">
-                <h1 className="App-title">Etheremum Reservation Application </h1>
               </header>
-              <p className="App-intro">
-                <div>
-                </div>
-              </p>
-                <AccountDetailsPanel/>
-                <AddEstateInputForm />
-                <SendPanel/>
-                <MintCurrency/>
-              <MyFirstGrid />
+                <body>
+                    <div className="body">
+                        <div className="header">
+                            <h1 className="App-title">Etheremum Reservation Application </h1>
+                        </div>
+                    <MyFirstGrid />
+                    </div>
+                </body>
             </div>
         );
     }

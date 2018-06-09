@@ -14,9 +14,11 @@ class AddAccInputForm extends Component {
                     <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" name="username" value={this.state.username} onChange={(event) => this.handleUserInput(event)} />
                 </div>
-                <button className="btn btn-primary" disabled={!this.state.formValid} onClick={(e) => this.addAcc(e)}>
-                    Add user
-                </button>
+                <div className="btnContainer">
+                    <button className="btn btn-primary" disabled={!this.state.formValid} onClick={(e) => this.addAcc(e)}>
+                        Add user
+                    </button>
+                </div>
                 <div className="panel panel-default">
                     <FormErrors formErrors={this.state.formErrors} />
                 </div>

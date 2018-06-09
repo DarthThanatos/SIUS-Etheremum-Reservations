@@ -11,12 +11,17 @@ class AccountDetailsPanel extends Component {
         return (
             <div className="accountDetailsPanel">
                 <h2>Account details</h2>
-                <p> Username: {this.state.user.name} </p>
-                <p> Ether balance: </p>
-                <p> In ethers: {this.state.etherBalance} </p>
-                <p> In weis: {this.state.weiBalance} </p>
-                <p> Custom currency balance: {this.state.customBalance} </p>
-                <SelectUserForm handleUserChange={this.handleUserChange} />
+                <p>
+                    Username: {this.state.user.name} <br />
+                    &ensp; Ether balance: <br />
+                    &ensp; &ensp; In ethers: {this.state.etherBalance} <br />
+                    &ensp; &ensp; In weis: {this.state.weiBalance} <br />
+                    &ensp; Custom currency balance: {this.state.customBalance} <br />
+                </p>
+                <SelectUserForm
+                    handleUserChange={this.handleUserChange}
+                    title="Select user"
+                />
                 <AddAccInputForm/>
             </div>
         )

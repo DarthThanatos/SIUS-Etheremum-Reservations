@@ -17,9 +17,18 @@ class SendPanel extends Component {
         return (
             <div className="sendPanel">
                 <h2>Send currency:</h2>
-                <p> From: <SelectUserForm handleUserChange={this.handleIssuerChange} /> </p>
-                <p> To: <SelectUserForm handleUserChange={this.handleTargetUserChange} /> </p>
-                <p> Currency: <SelectCurrencyForm handleCurrencyChange={this.handleCurrencyChange} /> </p>
+                <SelectUserForm
+                    handleUserChange={this.handleIssuerChange}
+                    title="Select issuer"
+                />
+                <SelectUserForm
+                    handleUserChange={this.handleTargetUserChange}
+                    title="Select target user"
+                />
+                <SelectCurrencyForm
+                    handleCurrencyChange={this.handleCurrencyChange}
+                    title="Select currency"
+                />
                 {/*<p><SliderWithTooltip*/}
                     {/*value={this.state.amount}*/}
                     {/*max={this.state.max}>*/}
@@ -30,9 +39,11 @@ class SendPanel extends Component {
                         <label htmlFor="amount">Amount</label>
                         <input type="text" className="form-control" name="amount" value={this.state.amount} onChange={(event) => this.handleUserInput(event)} />
                     </div>
+                    <div className="btnContainer">
                     <button className="btn btn-primary" disabled={!this.state.formValid} onClick={(e) => this.sendCurr(e)}>
                         Send
                     </button>
+                    </div>
                     <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>

@@ -8,6 +8,7 @@ import {errorClass} from "./Utils"
 class AddEstateInputForm extends Component {
     render () {
         return (
+            <div>
             <form className="addEstateInputForm">
                 <h2>Add estate</h2>
                     <div className={`form-group ${errorClass(this.state.formErrors.estateName)}` }>
@@ -18,9 +19,11 @@ class AddEstateInputForm extends Component {
                         <label htmlFor="price">Price</label>
                         <input type="text" className="form-control" name="price" value={this.state.price} onChange={(event) => this.handleUserInput(event)} />
                     </div>
+                <div className="btnContainer">
                     <button className="btn btn-primary" disabled={!this.state.formValid} onClick={(e) => this.openModal(e)}>
                         Add estate
                     </button>
+                </div>
                     <div className="panel panel-default">
                         <FormErrors formErrors={this.state.formErrors} />
                     </div>
@@ -33,6 +36,9 @@ class AddEstateInputForm extends Component {
                     <h2>Select user modal</h2>
                 </AddEstateModal>
             </form>
+
+            </div>
+
         )
     }
 
