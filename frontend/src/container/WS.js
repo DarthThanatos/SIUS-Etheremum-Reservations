@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../css/App.css';
+import '../css/WS.css';
 import SockJsClient from 'react-stomp';
 import { CSSGrid, layout } from 'react-stonecutter';
 
@@ -19,7 +20,7 @@ class WS extends Component{
 
     render(){
         return (
-            <div className="WS" style={{marginTop: 50, border:".1px solid #000000"}}>
+            <div id="WS" className="WS" >
                 <h2 style={{marginTop: 20}}>
                     Notifications
                 </h2>

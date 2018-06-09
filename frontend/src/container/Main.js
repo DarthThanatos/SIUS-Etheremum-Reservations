@@ -5,6 +5,8 @@ import '../css/App.css';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import MyFirstGrid from "./GridLayout";
+import WS from "./WS";
+
 
 
 class Main extends Component {
@@ -20,7 +22,10 @@ class Main extends Component {
                                 Ethereum Reservations
                             </div>
                         </div>
-                    <MyFirstGrid />
+                        <MyFirstGrid />
+                        <div style={{display:"flex", flexDirection:"row", justifyContent:"center", marginTop:50, marginBottom:50}}>
+                            <WS />
+                        </div>
                     </div>
                 </body>
             </div>
