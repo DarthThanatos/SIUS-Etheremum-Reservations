@@ -39,15 +39,6 @@ public class ListAllEstatesCommand extends Command {
         return null;
     }
 
-    @SuppressWarnings("EmptyCatchBlock")
-    private ReservationManager.Estate getEstate(Reservations reservationsForName, int i) {
-        try {
-            return reservationsForName.getEstateByIndex(i);
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
 
     @SuppressWarnings("EmptyCatchBlock")
     private int getMaxEstates(Reservations reservationsForName) {
@@ -81,10 +72,39 @@ public class ListAllEstatesCommand extends Command {
     @SuppressWarnings("EmptyCatchBlock")
     private ReservationManager.Estate getEstateOfOwner(Reservations reservationsForName, EthAccount account, int i) {
         try {
-            reservationsForName.getEstateOfOwnerByIndex(account, i);
+            ReservationManager.Estate estate = reservationsForName.getEstateOfOwnerByIndex(account, i);
+            return withTenantNames(estate, account, i, reservationsForName);
         } catch (Exception e) {
         }
         return null;
+    }
+
+    @SuppressWarnings("EmptyCatchBlock")
+    private ReservationManager.Estate getEstate(Reservations reservationsForName, int i) {
+        try {
+            ReservationManager.Estate estate = reservationsForName.getEstateByIndex(i);
+            return withTenantNames(estate, i, reservationsForName);
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    private ReservationManager.Estate withTenantNames(ReservationManager.Estate estate, int globalIndex, Reservations reservationsForName){
+        String[] names = new String[7];
+        for (int day = 0; day < 7; day++){
+            names[day] = accountsManager.getReadableNameFromHexForm(reservationsForName.getTenant(globalIndex, day));
+        }
+        estate.tenantsNames = names;
+        return estate;
+    }
+
+    private ReservationManager.Estate withTenantNames(ReservationManager.Estate estate, EthAccount estateOwner, int localIndex, Reservations reservationsForName){
+        String[] names = new String[7];
+        for (int day = 0; day < 7; day++){
+            names[day] = accountsManager.getReadableNameFromHexForm(reservationsForName.getTenantOfOwner(estateOwner, localIndex, day));
+        }
+        estate.tenantsNames = names;
+        return estate;
     }
 
     @SuppressWarnings("EmptyCatchBlock")

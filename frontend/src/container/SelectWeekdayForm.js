@@ -19,12 +19,14 @@ class SelectWeekdayForm extends Component {
         this.updateValue = this.updateValue.bind(this);
     }
 
+
     updateValue (newValue) {
         this.setState({
             selectValue: newValue,
         });
         this.props.handleDayChange(newValue)
     }
+
 
     render() {
         const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -35,7 +37,7 @@ class SelectWeekdayForm extends Component {
 
         return (
             <div className="section">
-                <h3 className="section-heading"> Please select weekday </h3>
+                <h3 className="section-heading"> {this.props.title} </h3>
                 <Select
                     id="user-select"
                     ref={(ref) => { this.select = ref; }}

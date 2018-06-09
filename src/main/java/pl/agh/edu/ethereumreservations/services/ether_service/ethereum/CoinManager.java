@@ -67,10 +67,10 @@ class CoinManager {
 
     public static class Sent extends SolEvent {
 
-        private String from, to;
-        private int amount;
-        private int pastFromBalance, currentFromBalance;
-        private int pastToBalance, currentToBalance;
+        public String from, to;
+        public int amount;
+        public int pastFromBalance, currentFromBalance;
+        public int pastToBalance, currentToBalance;
 
         public Sent(String from, String to, int amount, int pastFromBalance, int currentFromBalance, int pastToBalance, int currentToBalance) {
             this.from = from;
@@ -101,8 +101,8 @@ class CoinManager {
     }
 
     public static class Minted extends SolEvent {
-        private String receiver;
-        private int amount;
+        public String receiver;
+        public int amount;
 
         public Minted(String receiver, int amount) {
             this.receiver = receiver;

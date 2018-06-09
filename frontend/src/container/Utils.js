@@ -16,3 +16,13 @@ export function updateUrlParameter (uri, key, value) {
 }
 
 
+export function errorClass(error) {
+    return(error.length === 0 ? '' : 'has-error');
+}
+
+
+export const baseUrl = "http://localhost:8080";
+
+
+export default baseUrl;
+

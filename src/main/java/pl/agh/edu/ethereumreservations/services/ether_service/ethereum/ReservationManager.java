@@ -71,6 +71,7 @@ public class ReservationManager {
         public Integer price;
         public Boolean[] daysAvailabilityStates;
         public Boolean[] daysReservationStates;
+        public String[] tenantsNames;
         public final int estateIndex;
 
         public int getEstateIndex() {

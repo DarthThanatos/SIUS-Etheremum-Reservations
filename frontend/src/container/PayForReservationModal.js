@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import SelectUserForm from "./SelectUserForm";
 import axios from 'axios'
-import { updateUrlParameter, baseUrl } from "./Utils"
+import {updateUrlParameter, baseUrl, errorClass} from "./Utils"
 import SelectWeekdayForm from "./SelectWeekdayForm"
+import {FormErrors} from "./FormErrors";
 
 
-class ReserveEstateModal extends React.Component {
+class PayForReservationModal extends React.Component {
     constructor(props){
         super(props);
         this.state =
             {
                 user: '',
-                day: -1
+                day: -1,
+                amount: 0,
+                formErrors: {amount: ''},
+                amountValid: false,
+                formValid: false
             };
 
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handleDayChange = this.handleDayChange.bind(this);
-        this.reserveEstate = this.reserveEstate.bind(this);
+        this.payForReservation = this.payForReservation.bind(this);
     }
 
 
@@ -36,6 +41,43 @@ class ReserveEstateModal extends React.Component {
             newState
         )
     }
+
+    handleUserInput (e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]: value},
+            () => { this.validateField(name, value) });
+
+    }
+
+
+    validateField(fieldName, value) {
+        let fieldValidationErrors = this.state.formErrors;
+        let amountValid = this.state.amountValid;
+
+        switch(fieldName) {
+            case 'amount':
+                amountValid = value.match(/^\d+$/i);
+                fieldValidationErrors.amount = amountValid ? '' : ' has to be integer';
+                if(parseInt(value) > this.state.max) {
+                    amountValid = false;
+                    fieldValidationErrors.amount = 'error. Issuer has not enough currency!';
+                }
+                break;
+            default:
+                break;
+        }
+
+        this.setState({formErrors: fieldValidationErrors,
+            amountValid: amountValid
+        }, this.validateForm);
+    }
+
+
+    validateForm() {
+        this.setState({formValid: this.state.amountValid});
+    }
+
 
 
     render() {
@@ -114,8 +156,15 @@ class ReserveEstateModal extends React.Component {
                         handleDayChange={this.handleDayChange}
                         title="Select weekday"
                     />
+                    <div className={`form-group ${errorClass(this.state.formErrors.amount)}` }>
+                        <label htmlFor="amount">Amount</label>
+                        <input type="text" className="form-control" name="amount" value={this.state.amount} onChange={(event) => this.handleUserInput(event)} />
+                    </div>
+                    <div className="panel panel-default">
+                        <FormErrors formErrors={this.state.formErrors} />
+                    </div>
                     <div className="btnContainer">
-                        <button className="btn btn-primary" onClick={e => this.reserveEstate(e)}>Reserve estate</button>
+                        <button className="btn btn-primary" onClick={e => this.payForReservation(e)}>Pay</button>
                         <button className="btn btn-primary" onClick={e => this.close(e)}>Close</button>
                     </div>
                 </div>
@@ -136,7 +185,7 @@ class ReserveEstateModal extends React.Component {
     }
 
 
-    reserveEstate (e){
+    payForReservation (e){
         e.preventDefault()
 
         // Example: http://localhost:8080/accounts/hex/janusz
@@ -147,16 +196,17 @@ class ReserveEstateModal extends React.Component {
             .then(res => {
                 username = res.data;
 
-                // Example: localhost:8080/reservations/reserve/bob?ownerName=main&index=0&day=0
-                let uri = baseUrl + "/reservations/reserve/" + this.state.user;
+                // Example: http://localhost:8080/currency/pay/bob?ownerName=main&index=1&amount=5&weekDay=3
+                let uri = baseUrl + "/currency/pay/" + this.state.user;
 
                 uri = updateUrlParameter(uri, 'ownerName', username);
                 uri = updateUrlParameter(uri, 'index', this.props.id);
-                uri = updateUrlParameter(uri, 'day', this.state.day);
+                uri = updateUrlParameter(uri, 'amount', this.state.amount);
+                uri = updateUrlParameter(uri, 'weekDay', this.state.day);
 
-                axios.put(uri, {}, {})
+                axios.post(uri, {}, {})
                     .then(res => {
-                        console.log('Reservation completed. Res: ' + res.data)
+                        console.log('Reservation paid. Res: ' + res.data)
                     }, err => {
                         alert("Server rejected response with: " + err);
                     });
@@ -167,4 +217,4 @@ class ReserveEstateModal extends React.Component {
     }
 }
 
-export default ReserveEstateModal
+export default PayForReservationModal;

@@ -5,11 +5,11 @@ import '../css/SelectUserForm.css'
 import 'react-select/dist/react-select.css';
 
 
-class SelectUserForm extends Component {
+class SelectCurrencyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: [],
+            currencies: ['ether', 'custom'],
             selectValue: '',
             searchable: true,
             clearable: true,
@@ -24,42 +24,25 @@ class SelectUserForm extends Component {
         this.setState({
             selectValue: newValue,
         });
-        console.log("Changing to" + newValue);
-        this.props.handleUserChange(newValue)
-    }
-
-
-    componentDidMount() {
-        var _this = this;
-        axios.get("http://localhost:8080/accounts")
-            .then(function(res){
-                _this.setState({
-                    users: res.data
-                });
-            })
-            .catch(function(e) {
-                console.log("ERROR ", e);
-            })
+        this.props.handleCurrencyChange(newValue)
     }
 
 
     render() {
-        var names = this.state.users.map(function(item) {
-            return { value: item.name, label: item.name, className: item.name };
+        var items = this.state.currencies.map(function(item) {
+            return { value: item, label: item, className: item};
         });
-
-        console.log(names);
 
         return (
             <div className="section">
                 <h3 className="section-heading"> {this.props.title} </h3>
                 <Select
-                    id="user-select"
+                    id="currency-select"
                     ref={(ref) => { this.select = ref; }}
                     onBlurResetsInput={false}
                     onSelectResetsInput={false}
                     autoFocus
-                    options={names}
+                    options={items}
                     simpleValue
                     clearable={this.state.clearable}
                     name="selected-user"
@@ -75,4 +58,4 @@ class SelectUserForm extends Component {
 }
 
 
-export default SelectUserForm;
+export default SelectCurrencyForm;
