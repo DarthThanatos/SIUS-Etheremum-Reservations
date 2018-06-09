@@ -19,19 +19,21 @@ class WS extends Component{
 
     render(){
         return (
-            <div className="WS">
-                <h2>
+            <div className="WS" style={{marginTop: 50, border:".1px solid #000000"}}>
+                <h2 style={{marginTop: 20}}>
                     Notifications
                 </h2>
-                <p>
+                <p style={{textAlign:"center"}}>
                     Notifications received on the web socket channel will be displayed below:
                 </p>
-                <textarea id="notifications-area" ref="notifications-area" cols="80" rows="10" readOnly="readonly">
-                            {localStorage.getItem("eventsHistory")}
-                        </textarea>
+                <div  style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
+                    <textarea id="notifications-area" ref="notifications-area"  style={{width:"90%", height:200}} readOnly="readonly">
+                                {localStorage.getItem("eventsHistory")}
+                    </textarea>
+                </div>
                 <br/>
                 <div className="btnContainer">
-                <button className="btn btn-primary" onClick={this.clearHistory}>Clean</button>
+                <button className="btn btn-primary"  style={{marginBottom:20}} onClick={this.clearHistory}>Clean</button>
                 </div>
                     <div>
                     <SockJsClient url='http://localhost:8080/ws' topics={['/events']}

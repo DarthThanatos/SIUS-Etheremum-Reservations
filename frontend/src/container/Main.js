@@ -14,9 +14,11 @@ class Main extends Component {
               <header className="App-header">
               </header>
                 <body>
-                    <div className="body">
-                        <div className="header">
-                            <h1 className="App-title">Etheremum Reservation Application </h1>
+                    <div className="body" >
+                        <div style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
+                            <div className="header" style={{background:"white", opacity:0.8, width: "90%", marginTop:20, marginBottom:20, border:".1px solid #000000",color: "#555555", fontSize: 60}}>
+                                Ethereum Reservations
+                            </div>
                         </div>
                     <MyFirstGrid />
                     </div>

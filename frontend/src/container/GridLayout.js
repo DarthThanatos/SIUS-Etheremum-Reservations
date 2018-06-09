@@ -125,6 +125,9 @@ class MyFirstGrid extends Component {
             )
         });
 
+//                    <div className="container" key={6 * COLS - 1} data-grid={{x: COLS - 1, y: 4, w: 1, h: 1, static: true}}>
+//                        <WS/>
+//                    </div>
         return (
             <div>
                 <GridLayout className="layout" cols={COLS} rowHeight={300} width={(window.innerWidth - 10)}>
@@ -139,9 +142,6 @@ class MyFirstGrid extends Component {
                     </div>
                     <div className="container" key={4 * COLS - 1} data-grid={{x: COLS - 1, y: 2, w: 1, h: 2, static: true}}>
                         <MintCurrency/>
-                    </div>
-                    <div className="container" key={6 * COLS - 1} data-grid={{x: COLS - 1, y: 4, w: 1, h: 1, static: true}}>
-                        <WS/>
                     </div>
                     {renderItems}
                 </GridLayout>

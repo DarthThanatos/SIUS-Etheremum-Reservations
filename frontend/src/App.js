@@ -3,6 +3,7 @@ import Main from './container/Main';
 import './css/App.css';
 import SockJsClient from 'react-stomp';
 import { CSSGrid, layout } from 'react-stonecutter';
+import WS from "./container/WS";
 
 const ReactDOM = require('react-dom')
 
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <div className="App">
         <Main />
+        <WS />
       </div>
     );
   }
