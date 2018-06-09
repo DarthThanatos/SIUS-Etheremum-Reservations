@@ -40,9 +40,9 @@ public class EventHandler<T extends SolEvent> {
                         event.toString(),
                         translatedAdresses
                 );
-        System.out.println(res);
+        System.out.println("{ \"msg\": " + "\"" + res + "\"}");
         System.out.println("Sending to /events");
-        NotificationController.template.convertAndSend("/events", res);
+        NotificationController.template.convertAndSend("/events", event);
         if (nonDefaultEventHandler != null) nonDefaultEventHandler.handle(event);
     }
 
