@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Main from './container/Main';
 import './css/App.css';
+import SockJsClient from 'react-stomp';
 import { CSSGrid, layout } from 'react-stonecutter';
 
-
-
+const ReactDOM = require('react-dom')
 
 
 class App extends Component {
@@ -13,7 +13,6 @@ class App extends Component {
     return (
       <div className="App">
         <Main />
-
       </div>
     );
   }

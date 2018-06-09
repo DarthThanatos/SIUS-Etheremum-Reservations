@@ -37,13 +37,16 @@ class WS extends Component{
                     <SockJsClient url='http://localhost:8080/ws' topics={['/events']}
                                   onMessage={
                                       (msg) => {
-                                          var history = localStorage.getItem( 'eventsHistory');
-                                          history = history == null ? "" : history;
-                                          console.log(msg)
-                                          console.log(history)
-                                          var txt = "Event: " + msg["eventName"] + "n->" + "estatesOwnerAddress: " + msg["estatesOwnerAddressString"] + "n->" + "estate name: " + msg["name"] + "n->estate price: " + msg["price"] + "n->estate index: " + msg["estateIndex"];
-                                          localStorage.setItem("eventsHistory", history + "n==========================n" + txt)
-                                          alert("Got msg:n " + txt);
+                                            var history = localStorage.getItem( 'eventsHistory');
+                                            history = history == null ? "" : history;
+                                            console.log(msg)
+                                            console.log(history)
+                                            var txt = "Event: " + msg["eventName"] + "\n"
+                                            for(var key in msg){
+                                              txt += "-> " + key + ": " + msg[key] + "\n"
+                                            }
+                                            localStorage.setItem("eventsHistory", history + "\n==========================\n" + txt)
+                                            alert("Got msg:\n " + txt);
                                       }
                                   }
                                   ref={ (client) => { this.clientRef = client }} />
