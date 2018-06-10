@@ -9,7 +9,7 @@ import baseUrl from "./Utils";
 class AccountDetailsPanel extends Component {
     render () {
         return (
-            <div className="accountDetailsPanel">
+            <div className="accountDetailsPanel" autofocus>
                 <h2>Account details</h2>
                 <p>
                     Username: {this.state.user.name} <br />

@@ -72,6 +72,8 @@ public class ReservationManager {
         public Boolean[] daysAvailabilityStates;
         public Boolean[] daysReservationStates;
         public String[] tenantsNames;
+        public Integer[] alreadyPaid;
+        public Integer[] toPay;
         public final int estateIndex;
 
         public int getEstateIndex() {
@@ -90,13 +92,23 @@ public class ReservationManager {
             this.daysReservationStates = daysReservationStates;
         }
 
-        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates, int estateIndex) {
+        public Estate(String estateOwnerHexString, String name, Integer price, Boolean[] daysAvailabilityStates, Boolean[] daysReservationStates, int estateIndex, Integer[] alreadyPaid) {
             this.estateOwnerHexString = estateOwnerHexString;
             this.name = name;
             this.price = price;
             this.daysAvailabilityStates = daysAvailabilityStates;
             this.daysReservationStates = daysReservationStates;
             this.estateIndex = estateIndex;
+            this.alreadyPaid = alreadyPaid;
+            this.toPay = yetToPay(alreadyPaid);
+        }
+
+        private Integer[] yetToPay(Integer[] alreadyPaid){
+            Integer[] res = new Integer[7];
+            for(int i = 0; i < 7; i++){
+                res[i] = price - alreadyPaid[i];
+            }
+            return res;
         }
 
         public String getEstateOwnerHexString() {

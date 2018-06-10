@@ -125,7 +125,7 @@ class AddEstateModal extends React.Component {
                 alert("Server rejected response with: " + err);
             });
         this.close(e);
-        window.location.reload()
+        // window.location.reload()
     }
 }
 

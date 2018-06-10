@@ -4,12 +4,15 @@ import '../css/WS.css';
 import SockJsClient from 'react-stomp';
 import { CSSGrid, layout } from 'react-stonecutter';
 
+// import $ from "jquery"
+
 class WS extends Component{
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
+        // $("#WS").off()
     }
 
     clearHistory(){
@@ -19,6 +22,7 @@ class WS extends Component{
     }
 
     render(){
+        console.log("Rendering WS")
         return (
             <div id="WS" className="WS" >
                 <h2 style={{marginTop: 20}}>
@@ -48,8 +52,9 @@ class WS extends Component{
                                             for(var key in msg){
                                               txt += "-> " + key + ": " + msg[key] + "\n"
                                             }
-                                            localStorage.setItem("eventsHistory", history + "\n==========================\n" + txt)
                                             alert("Got msg:\n " + txt);
+                                            localStorage.setItem("eventsHistory", history + "\n==========================\n" + txt)
+                                            window.location.reload()
                                       }
                                   }
                                   ref={ (client) => { this.clientRef = client }} />

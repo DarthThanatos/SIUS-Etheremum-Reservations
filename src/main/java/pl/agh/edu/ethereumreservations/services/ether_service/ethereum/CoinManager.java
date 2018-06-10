@@ -66,6 +66,7 @@ class CoinManager {
 
 
     public static class Sent extends SolEvent {
+        public final String eventName = "Sent custom currency";
 
         public String from, to;
         public int amount;
@@ -101,6 +102,7 @@ class CoinManager {
     }
 
     public static class Minted extends SolEvent {
+        public final String eventName = "Minted";
         public String receiver;
         public int amount;
 

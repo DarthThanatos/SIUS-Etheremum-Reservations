@@ -94,14 +94,14 @@ contract Reservations {
         allEstates[estate.globalIndex].daysAvailabilityStates[day] = available;
     }
 
-    function getEstateOfOwnerByIndex(address estatesOwner, uint index) constant public returns(string, string , uint , bool[] , bool[], uint){
+    function getEstateOfOwnerByIndex(address estatesOwner, uint index) constant public returns(string, string , uint , bool[] , bool[], uint, uint[]){
         Estate estate = estatesByOwner[estatesOwner][index];
-        return (estate.estatesOwnerAddressString, estate.name, estate.price, estate.daysAvailabilityStates, estate.daysReservationStates, estate.localIndex);
+        return (estate.estatesOwnerAddressString, estate.name, estate.price, estate.daysAvailabilityStates, estate.daysReservationStates, estate.localIndex, estate.alreadyPaidAmount);
     }
 
-    function getEstateByIndex(uint index) constant public returns(string, string , uint , bool[] , bool[], uint){
+    function getEstateByIndex(uint index) constant public returns(string, string , uint , bool[] , bool[], uint, uint[]){
         Estate estate = allEstates[index];
-        return (estate.estatesOwnerAddressString, estate.name, estate.price, estate.daysAvailabilityStates, estate.daysReservationStates, estate.localIndex);
+        return (estate.estatesOwnerAddressString, estate.name, estate.price, estate.daysAvailabilityStates, estate.daysReservationStates, estate.localIndex, estate.alreadyPaidAmount);
     }
 
     function getOwnerEstatesAmount(address estatesOwner)constant public returns(uint){

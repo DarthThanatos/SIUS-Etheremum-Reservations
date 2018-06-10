@@ -20,7 +20,7 @@ class PaymentTracker {
     void handleReservation(ReservationManager.ReservationMade reservationMade) {
         ReservationDetails reservationDetails = new ReservationDetails(reservationMade.estateOwnerAddressString, reservationMade.estateIndex, reservationMade.day);
         reservationActiveMap.put(reservationDetails, true);
-        Observable.interval(20, TimeUnit.SECONDS).subscribeOn(Schedulers.newThread()).forEachWhile(
+        Observable.interval(2, TimeUnit.MINUTES).subscribeOn(Schedulers.newThread()).forEachWhile(
                 aLong -> shouldStopObservingReservation(aLong, reservationDetails),
                 Throwable::printStackTrace
         );

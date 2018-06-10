@@ -66,7 +66,7 @@ class MyFirstGrid extends Component {
 
 
     closeModal() {
-        window.location.reload()
+        // window.location.reload()
         this.setState({reservationModalIsOpen: false,
                        payReservationModalIsOpen: false});
     }
@@ -75,7 +75,8 @@ class MyFirstGrid extends Component {
     render() {
         var COLS= Math.floor((window.innerWidth - 10) / 350);
         let id = 0;
-        console.log(COLS)
+        console.log("grid items")
+        console.log(this.state.items)
         const renderItems = this.state.items.map((item, i) => {
             const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -90,6 +91,16 @@ class MyFirstGrid extends Component {
             });
 
             const tenantsNames = item.tenantsNames.map(function(item, j) {
+                if(item)
+                    return weekdays[j] + ": " + item + " "
+            });
+
+            const alreadyPaid = item.alreadyPaid.map(function(item, j) {
+                if(item)
+                    return weekdays[j] + ": " + item + " "
+            });
+
+            const yetToPay = item.toPay.map(function(item, j) {
                 if(item)
                     return weekdays[j] + ": " + item + " "
             });
@@ -115,6 +126,8 @@ class MyFirstGrid extends Component {
                     Available: {available} <br />
                     Reserved: {reserved} <br />
                     Tenants names: {tenantsNames} <br />
+                    Already paid: {alreadyPaid} <br />
+                    Yet to pay: {yetToPay} <br />
                         <div className="estBtnContainer">
                     <button className="btn btn-primary est-btn" onClick={(e) => this.openReservationModal(eid, owner, e)}>Reserve</button>
                     <button className="btn btn-primary est-btn" onClick={(e) => this.openPayReservationModal(eid, owner, e)}>Pay reservation</button>
